@@ -2,7 +2,6 @@
 title: Creating Packages with Composer
 date: 2024-01-19
 author: spesh
-tags: [Jamf, Package creation, Patch Management, Composer]
 ---
 
 # Using Jamf's Composer to Create Installer Packages

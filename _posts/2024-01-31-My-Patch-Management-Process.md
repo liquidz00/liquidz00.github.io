@@ -2,7 +2,6 @@
 title: My Patch Management Process
 date: 2024-01-31
 author: spesh
-tags: [Jamf, Patch Management, Installomator, Composer]
 ---
 
 # Patch Management Process

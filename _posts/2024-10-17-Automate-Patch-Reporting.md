@@ -2,7 +2,6 @@
 title: Automated Patch Reporting with Patcher
 date: 2024-10-17
 author: spesh
-tags: [Jamf, Automation, Patching, Python, Jamf API]
 ---
 
 ![Patcher Banner](assets/posts/automate-patch-reporting/PatcherBanner.png)
