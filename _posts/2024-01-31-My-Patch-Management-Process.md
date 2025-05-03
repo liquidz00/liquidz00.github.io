@@ -19,7 +19,7 @@ Configuring software titles in Jamf is not *required* in order to Patch applicat
 4. If the software title has not been configured, click **New** in the upper right hand corner. 
 5. Click the chevron (`>`) next to Jamf to load available software titles through Jamf. Once the list has loaded, search for the software title by using the Search field near the top of the list. 
 6. If the software title is available, click the plus (`+`) to begin configuration.
-    <a id="composer-article-ref"></a>
+    <span id="composer-article-ref"></span>
     - In circumstances which the software title is not available, patching will have to be done manually. If using Composer, the article [creating packages with composer](/posts/Creating-Packages-with-Composer) outlines this process.
 7. Click **Edit** in the bottom right corner, use the **Software Title Settings** tab to configure basic settings for the software title. 
 8. (Optional) Assign the software title to a category by selecting the **Category** drop down menu. 
