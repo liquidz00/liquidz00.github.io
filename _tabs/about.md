@@ -33,11 +33,45 @@ When I'm not coding or managing Mac fleets, you can likely find me:
 
 ---
 
-## Career Snapshot
+## My Current Tech Stack & Daily Tools
 
-Currently, I work as an Internal Systems Administrator II at a Financial Tech firm in Boston, specializing in Apple device management using **Jamf Pro, Jamf Protect, and Jamf Connect**. I do my best to contribute to open-source MacAdmin tools and the community at large, and am very active on Jamf Nation and the MacAdmins Slack. 
+Here's a look at the apps and utilities I use regularly in my workflow - from development to device management to writing documentation. If you're a fellow MacAdmin, developer, or automation nerd, you might find a few favorites here.
 
-Building tools, creating workflows, and helping others are what I find myself most passionate about.
+### 💻 Hardware Setup
+
+I do all my development work on a [MacBook Pro (M1 Max)](https://www.apple.com/macbook-pro/) with 32 GB RAM connected to a Samsung ViewFinity S949 49" Ultrawide external monitor. For accessories, I use: 
+
+- [Keychron K10 Pro](https://www.keychron.com/products/keychron-k10-pro-qmk-via-wireless-mechanical-keyboard) keyboard
+- [Logitech MX Master 3S](https://www.logitech.com/en-us/shop/p/mx-master-3s-mac-bluetooth-mouse.910-006570) mouse
+- [AirPods Max](https://www.apple.com/airpods-max/) for blocking out the world
+
+### 🧑‍💻 Development Environment
+
+- [Visual Studio Code](https://code.visualstudio.com/) & [PyCharm CE](https://jetbrains.com/pycharm/) - my IDEs of choice for Python, scripting and web projects
+- [Warp](https://www.warp.dev/) - terminal client, running [OhMyZsh](https://ohmyz.sh) with [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting) plugin
+
+### 🌐 API Testing & Browsers
+
+- [Altair GraphQL Client](https://altairgraphql.dev/) - primarily for the Jamf Protect API, can be used for other GraphQL schema introspection and API queries
+- [Postman](https://www.postman.com/) - a classic for testing REST APIs
+- [Arc Browser](https://arc.net/), [Google Chrome](https://www.google.com/chrome/), and [Safari](https://www.apple.com/safari/) - yes, I rotate between all three 🙃
+
+### 📝 Notes & Docs
+
+- [Notion](https://www.notion.so/) - my second brain: documentation, SOPs, blog drafts, task management
+
+### 🔒 MacAdmin Utilities
+
+- [Apparency](https://www.mothersruin.com/software/Apparency/) - for code signing info and application inspection
+- [Suspicious Package](https://www.mothersruin.com/software/SuspiciousPackage/) - preview `.pkg` installer contents before running
+
+### 🔧 Workflow Helpers
+
+- [CopyLess 2](https://copyless.net/) - clipboard manager with history and favorites
+- [Rectangle/Rectangle Pro](https://rectangleapp.com/) - window management with keyboard shortcuts
+- [TextExpander](https://textexpander.com) - powerful snippet/expansion tool for faster typing
+
+---
 
 ## Want to get in touch?
 
