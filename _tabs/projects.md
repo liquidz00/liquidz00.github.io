@@ -20,9 +20,12 @@ This space highlights some of the tools, utilities, and communities I'm involved
 
 A command line interface (CLI) for macOS that leverages the Jamf Pro API to fetch patch management data and generate comprehensive reports in varying formats.
 
+<!-- markdownlint-capture -->
+<!-- markdownlint-disable -->
 [View on GitHub](https://github.com/liquidz00/Patcher)
 <br>
 [View Project Docs](https://patcher.liquidzoo.io)
+<!-- markdownlint-restore -->
 
 ### **Bappy** *(Unreleased)*
 
@@ -42,17 +45,20 @@ These contributions are relatively small - documentation updates, type hints, co
 
 ### **Python Jamf Pro SDK**
 
-A client library for the Jamf Pro APIs and webhooks. 
+A client library for the Jamf Pro APIs and webhooks.
 
+<!-- markdownlint-capture -->
+<!-- markdownlint-disable -->
 [View on GitHub](https://github.com/macadmins/jamf-pro-sdk-python)
 <br>
 [View Project Docs](https://macadmins.github.io/jamf-pro-sdk-python)
+<!-- markdownlint-restore -->
 
 ---
 
 ## 🧰 Projects I Use Heavily
 
-These tools are foundational to my daily work as a MacAdmin. I may not have contributed code (yet), but they've absolutely influenced my workflows, tools, and thinking. 
+These tools are foundational to my daily work as a MacAdmin. I may not have contributed code (yet), but they've absolutely influenced my workflows, tools, and thinking.
 
 - [Installomator](https://github.com/Installomator/Installomator)
 - [Setup Your Mac](https://github.com/setup-your-mac/Setup-Your-Mac)

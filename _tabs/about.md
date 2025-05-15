@@ -14,17 +14,17 @@ My name is Andrew, all my friends and family call me Spesh. I'm a MacAdmin, code
 
 ---
 
-## Why "Liquid Zoo"? 
+## Why "Liquid Zoo"?
 
-The name is a personal nod to a fond memory of mine - visiting the Atlanta Aquarium during my Apple Genius training years ago. Someone joked that aquariums are like "liquid zoos," and the name just stuck. It resonated even more as a metaphor for my wide range of interests: technology, music, gaming, software engineering, scripting languages (Python, Shell & Swift), and some web development. 
+The name is a personal nod to a fond memory of mine - visiting the Atlanta Aquarium during my Apple Genius training years ago. Someone joked that aquariums are like "liquid zoos," and the name just stuck. It resonated even more as a metaphor for my wide range of interests: technology, music, gaming, software engineering, scripting languages (Python, Shell & Swift), and some web development.
 
-**The Zoo** represents organized chaos - a collection of passions all living under one roof. 
+**The Zoo** represents organized chaos - a collection of passions all living under one roof.
 
---- 
+---
 
 ## Life Outside Tech
 
-When I'm not coding or managing Mac fleets, you can likely find me: 
+When I'm not coding or managing Mac fleets, you can likely find me:
 
 - Deep in a single-player video game like *The Last of Us* (1 or 2), *Ghost of Tsushima*, *God of War*, or any of the *Spiderman* games for PS5 🎮
 - Watching horror movies (Halloween is a sacred holiday in our house) 🎃
@@ -39,7 +39,7 @@ Here's a look at the apps and utilities I use regularly in my workflow - from de
 
 ### 💻 Hardware Setup
 
-I do all my development work on a [MacBook Pro (M1 Max)](https://www.apple.com/macbook-pro/) with 32 GB RAM connected to a Samsung ViewFinity S949 49" Ultrawide external monitor. For accessories, I use: 
+I do all my development work on a [MacBook Pro (M1 Max)](https://www.apple.com/macbook-pro/) with 32 GB RAM connected to a Samsung ViewFinity S949 49" Ultrawide external monitor. For accessories, I use:
 
 - [Keychron K10 Pro](https://www.keychron.com/products/keychron-k10-pro-qmk-via-wireless-mechanical-keyboard) keyboard
 - [Logitech MX Master 3S](https://www.logitech.com/en-us/shop/p/mx-master-3s-mac-bluetooth-mouse.910-006570) mouse
@@ -75,9 +75,10 @@ I do all my development work on a [MacBook Pro (M1 Max)](https://www.apple.com/m
 
 ## Want to get in touch?
 
-I'm most active on the [MacAdmins slack](https://www.macadmins.org/) and would recommend any MacAdmin join if you have not already. 
+I'm most active on the [MacAdmins slack](https://www.macadmins.org/) and would recommend any MacAdmin join if you have not already.
 
-Other ways you can get in contact are: 
+Other ways you can get in contact are:
+
 - [Email](mailto:info@aliquidzoo.io)
 - [GitHub](https://github.com/liquidz00)
 - [JamfNation](https://community.jamf.com/t5/user/viewprofilepage/user-id/140536)
