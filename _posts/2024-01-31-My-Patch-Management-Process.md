@@ -3,6 +3,8 @@ title: My Patch Management Process
 date: 2024-01-31
 author: spesh
 ---
+<!-- markdownlint-capture -->
+<!-- markdownlint-disable -->
 
 # Patch Management Process
 

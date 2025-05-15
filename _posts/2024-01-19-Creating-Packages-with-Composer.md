@@ -3,8 +3,11 @@ title: Creating Packages with Composer
 date: 2024-01-19
 author: spesh
 ---
+<!-- markdownlint-capture -->
+<!-- markdownlint-disable -->
 
 # Using Jamf's Composer to Create Installer Packages
+
 This article outlines manually creating `.pkg` files using the Composer application from Jamf.
 
 ![ComposerIcon](assets/posts/creating-packages-with-composer/composer-icon.png){: width="256" height="256" }
@@ -22,11 +25,11 @@ _Figure 1.1 - Composer User Interface_
 ![UserInterface-2](assets/posts/creating-packages-with-composer/composer-user-interface-2.png)
 _Figure 1.2 - Composer User Interface with Application_
 
-1. **Sources Pane** - the package source. Location to drag and drop target application to begin packaging process. 
-2. **Packages Pane** - list of all previously made packages. Composer keeps a history if the need to re-package an application arises. 
-3. **Build** - button that will convert target application into a `.pkg` file. 
+1. **Sources Pane** - the package source. Location to drag and drop target application to begin packaging process.
+2. **Packages Pane** - list of all previously made packages. Composer keeps a history if the need to re-package an application arises.
+3. **Build** - button that will convert target application into a `.pkg` file.
 4. **Contents** - a collapsable view of what is being packaged. For more complicated builds, LaunchDaemons and LaunchAgents can be added, or other files to include with package. (*Figure 1.2*)
-5. **Permissions** - current file permissions for application that is being packaged. Ellipsis button will allow modifying file permissions of all enclosed items. (*Figure 1.2*) 
+5. **Permissions** - current file permissions for application that is being packaged. Ellipsis button will allow modifying file permissions of all enclosed items. (*Figure 1.2*)
 
 ## Packaging Process
 
