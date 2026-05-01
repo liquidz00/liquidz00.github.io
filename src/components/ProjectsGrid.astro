@@ -1,0 +1,44 @@
+---
+import ProjectCard from './ProjectCard.astro';
+
+const projects = [
+  {
+    tag: 'Open Source',
+    name: 'Patcher',
+    desc: 'Patch reporting and analytics for Jamf-managed Apple fleets. Surfaces software title coverage across devices to make patching auditable.',
+    stack: ['Python', 'Jamf Pro API'],
+    href: 'https://github.com/liquidz00/Patcher',
+  },
+  {
+    tag: 'Tooling',
+    name: 'Fleet Automation',
+    desc: 'Scripts and configuration profiles for managing Apple endpoints at scale — onboarding, baseline policies, and recurring maintenance.',
+    stack: ['Bash', 'Swift', 'MDM'],
+  },
+  {
+    tag: 'Endpoint Security',
+    name: 'Compliance Baselines',
+    desc: 'Reusable controls and policy templates for Mac fleets, oriented around endpoint security and audit-friendly evidence.',
+    stack: ['Jamf', 'Configuration Profiles'],
+  },
+];
+---
+
+<section class="section">
+  <div class="section-header">
+    <span class="section-label">// Projects</span>
+    <h2 class="section-title">Selected Work</h2>
+  </div>
+
+  <div class="projects-grid">
+    {projects.map((project) => (
+      <ProjectCard
+        tag={project.tag}
+        name={project.name}
+        desc={project.desc}
+        stack={project.stack}
+        href={project.href}
+      />
+    ))}
+  </div>
+</section>

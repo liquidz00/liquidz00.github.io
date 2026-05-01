@@ -1,0 +1,26 @@
+---
+interface Props {
+  tag: string;
+  name: string;
+  desc: string;
+  stack?: string[];
+  href?: string;
+}
+
+const { tag, name, desc, stack = [], href } = Astro.props;
+const Tag = href ? 'a' : 'div';
+---
+
+<Tag class="project-card" href={href} target={href?.startsWith('http') ? '_blank' : undefined} rel={href?.startsWith('http') ? 'noopener' : undefined}>
+  <div class="project-tag">{tag}</div>
+  <div class="project-name">{name}</div>
+  <p class="project-desc">{desc}</p>
+
+  {stack.length > 0 && (
+    <div class="project-stack">
+      {stack.map((item) => <span class="stack-pill">{item}</span>)}
+    </div>
+  )}
+
+  {href && <span class="project-arrow" aria-hidden="true">↗</span>}
+</Tag>

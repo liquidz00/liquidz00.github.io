@@ -1,0 +1,23 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+const { post } = Astro.props;
+---
+
+<BaseLayout title={`${post.data.title} | Liquid Zoo`}>
+  <main class="section">
+    <article class="blog-post">
+      <p class="post-date">
+        {post.data.date.toLocaleDateString('en-US', {
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric',
+        })}
+      </p>
+
+      <h1>{post.data.title}</h1>
+
+      <slot />
+    </article>
+  </main>
+</BaseLayout>
