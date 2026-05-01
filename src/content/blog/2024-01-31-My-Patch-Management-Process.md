@@ -2,11 +2,13 @@
 title: My Patch Management Process
 date: 2024-01-31
 author: spesh
+description: How I structure patch management for a Jamf-managed Mac fleet — from smart groups to policy scoping and reporting.
+tags:
+  - Jamf
+  - Patch Management
 ---
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable -->
-
-# Patch Management Process
 
 > **Note** <br>This was originally written as an SOP article for internal use at my organization. However, the base principles can be applied in any environment using Jamf Pro as an MDM. 
 
@@ -125,6 +127,6 @@ Configuring software titles in Jamf is not *required* in order to Patch applicat
     ![Add to Jamf Pro Dashboard](/assets/posts/patch-management-process/show-in-dashboard.png)
     _Jamf Pro Dashboard checkbox_
 
-# Done! 🎉
+## Done! 🎉
 
 You now have a policy set up to update a software title automatically. If you used Composer to manually create a package, **it is important to remember** you only created an update for that specific version of the application in question. As soon as a new version is released, you will need to create another package for that application. If Installomator was leveraged, reference [Installomator's exit codes](https://github.com/Installomator/Installomator/wiki/Installomator-Exit-Codes) if your policies are failing.

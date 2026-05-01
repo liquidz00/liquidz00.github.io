@@ -2,6 +2,10 @@
 title: Automated Patch Reporting with Patcher
 date: 2024-10-17
 author: spesh
+description: How Patcher automates Mac patch reporting against the Jamf Pro API — and why I open-sourced it.
+tags:
+  - Patcher
+  - Automation
 ---
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable -->

@@ -2,6 +2,11 @@
 title: The Edge Methodology - Leading with Curiosity and Courage
 date: 2025-05-15
 author: spesh
+description: Reflections on Charles Edge's approach to leadership in MacAdmin work — leading with curiosity and courage.
+tags:
+  - Leadership
+  - Methodology
+heroFit: contain
 ---
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable -->

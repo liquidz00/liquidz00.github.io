@@ -2,11 +2,14 @@
 title: Creating Packages with Composer
 date: 2024-01-19
 author: spesh
+description: A walkthrough of manually creating .pkg installers with Jamf's Composer for distribution via Jamf Pro.
+tags:
+  - Jamf
+  - Packaging
+heroFit: contain
 ---
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable -->
-
-# Using Jamf's Composer to Create Installer Packages
 
 This article outlines manually creating `.pkg` files using the Composer application from Jamf.
 

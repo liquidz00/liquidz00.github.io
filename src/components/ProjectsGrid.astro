@@ -1,34 +1,53 @@
 ---
 import ProjectCard from './ProjectCard.astro';
 
+interface Props {
+  showHeader?: boolean;
+  headerLabel?: string;
+  headerTitle?: string;
+}
+
+const {
+  showHeader = true,
+  headerLabel = '// Projects',
+  headerTitle = 'Selected Work',
+} = Astro.props;
+
 const projects = [
   {
     tag: 'Open Source',
     name: 'Patcher',
-    desc: 'Patch reporting and analytics for Jamf-managed Apple fleets. Surfaces software title coverage across devices to make patching auditable.',
+    desc: 'Patch reporting and analytics for Jamf-managed Apple fleets. Surfaces software title coverage so patching is visible and auditable.',
     stack: ['Python', 'Jamf Pro API'],
     href: 'https://github.com/liquidz00/Patcher',
+    docsHref: 'https://patcher.readthedocs.io',
   },
   {
-    tag: 'Tooling',
-    name: 'Fleet Automation',
-    desc: 'Scripts and configuration profiles for managing Apple endpoints at scale — onboarding, baseline policies, and recurring maintenance.',
-    stack: ['Bash', 'Swift', 'MDM'],
+    tag: 'Open Source',
+    name: 'JamfMCP',
+    desc: 'Model Context Protocol server for Jamf Pro — lets LLM tools query and act against a Jamf instance through a standard interface.',
+    stack: ['Python', 'MCP', 'Jamf Pro API'],
+    href: 'https://github.com/liquidz00/JamfMCP',
+    docsHref: 'https://jamfmcp.readthedocs.io',
   },
   {
-    tag: 'Endpoint Security',
-    name: 'Compliance Baselines',
-    desc: 'Reusable controls and policy templates for Mac fleets, oriented around endpoint security and audit-friendly evidence.',
-    stack: ['Jamf', 'Configuration Profiles'],
+    tag: 'Open Source',
+    name: 'pymdm',
+    desc: 'Python toolkit for working with MDM workflows — building blocks for managing Apple endpoints programmatically.',
+    stack: ['Python', 'MDM'],
+    href: 'https://github.com/liquidz00/pymdm',
+    docsHref: 'https://pymdm.readthedocs.io',
   },
 ];
 ---
 
 <section class="section">
-  <div class="section-header">
-    <span class="section-label">// Projects</span>
-    <h2 class="section-title">Selected Work</h2>
-  </div>
+  {showHeader && (
+    <div class="section-header">
+      <span class="section-label">{headerLabel}</span>
+      <h2 class="section-title">{headerTitle}</h2>
+    </div>
+  )}
 
   <div class="projects-grid">
     {projects.map((project) => (
@@ -38,6 +57,7 @@ const projects = [
         desc={project.desc}
         stack={project.stack}
         href={project.href}
+        docsHref={project.docsHref}
       />
     ))}
   </div>
