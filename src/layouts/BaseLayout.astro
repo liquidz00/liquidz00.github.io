@@ -1,0 +1,55 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const {
+  title = 'Liquid Zoo | Andrew Speciale',
+  description = 'Andrew Speciale (spesh) — MacAdmin and Client Platform Engineer. Apple fleet management, automation, and open-source tooling.',
+  image,
+} = Astro.props;
+
+const siteUrl = Astro.site?.toString() ?? 'https://liquidzoo.io';
+const canonicalURL = new URL(Astro.url.pathname, siteUrl).toString();
+const ogImage = image ? new URL(image, siteUrl).toString() : undefined;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="canonical" href={canonicalURL} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    {/* Open Graph */}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Liquid Zoo" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+
+    {/* Twitter */}
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
+  </head>
+  <body>
+    <Nav />
+    <slot />
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,64 @@
+---
+interface Props {
+  tag: string;
+  name: string;
+  desc: string;
+  stack?: string[];
+  href?: string;
+  docsHref?: string;
+}
+
+const { tag, name, desc, stack = [], href, docsHref } = Astro.props;
+
+// If we have both a repo link AND a docs link, render as a non-anchor card
+// with explicit action buttons. Otherwise the card itself is the link
+// (cleaner UX on the homepage where each card has one destination).
+const hasMultipleLinks = Boolean(href && docsHref);
+const Tag = hasMultipleLinks ? 'div' : href ? 'a' : 'div';
+const cardHref = hasMultipleLinks ? undefined : href;
+const isExternal = (url?: string) => url?.startsWith('http');
+---
+
+<Tag
+  class="project-card"
+  href={cardHref}
+  target={isExternal(cardHref) ? '_blank' : undefined}
+  rel={isExternal(cardHref) ? 'noopener' : undefined}
+>
+  <div class="project-tag">{tag}</div>
+  <div class="project-name">{name}</div>
+  <p class="project-desc">{desc}</p>
+
+  {stack.length > 0 && (
+    <div class="project-stack">
+      {stack.map((item) => <span class="stack-pill">{item}</span>)}
+    </div>
+  )}
+
+  {hasMultipleLinks && (
+    <div class="project-links">
+      {href && (
+        <a
+          class="project-link"
+          href={href}
+          target={isExternal(href) ? '_blank' : undefined}
+          rel={isExternal(href) ? 'noopener' : undefined}
+        >
+          Code ↗
+        </a>
+      )}
+      {docsHref && (
+        <a
+          class="project-link"
+          href={docsHref}
+          target={isExternal(docsHref) ? '_blank' : undefined}
+          rel={isExternal(docsHref) ? 'noopener' : undefined}
+        >
+          Docs ↗
+        </a>
+      )}
+    </div>
+  )}
+
+  {!hasMultipleLinks && href && <span class="project-arrow" aria-hidden="true">↗</span>}
+</Tag>

@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="404 — Not Found | Liquid Zoo"
+  description="The page you're looking for isn't part of this Zoo."
+>
+  <main class="page message-page">
+    <div class="message-eyebrow">// Error</div>
+    <h1 class="message-title">
+      <span class="message-outline">404</span>
+    </h1>
+    <p class="message-subtitle">You wandered into an empty tank.</p>
+    <p class="message-body">
+      That page either doesn't exist, swam away, or never made it past the
+      filter. Either way — here's the way out.
+    </p>
+    <div class="message-actions">
+      <a href="/" class="btn-primary">Go home ↗</a>
+      <a href="/blog/" class="btn-ghost">Read the blog</a>
+      <a href="/projects/" class="btn-ghost">See projects</a>
+    </div>
+  </main>
+</BaseLayout>

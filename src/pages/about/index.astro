@@ -1,0 +1,250 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContactForm from '../../components/ContactForm.astro';
+---
+
+<BaseLayout
+  title="About | Liquid Zoo"
+  description="MacAdmin and Client Platform Engineer based in Boston, MA. The story behind Liquid Zoo — plus a working resume."
+>
+  <main class="page about">
+    <!-- ── Hero / intro ── -->
+    <section class="section about-hero">
+      <img
+        class="about-header"
+        src="/assets/img/about-header.webp"
+        alt=""
+        loading="eager"
+      />
+      <div class="section-header">
+        <span class="section-label">// About</span>
+        <h1 class="section-title">Hey, I'm Andrew 👋</h1>
+      </div>
+
+      <div class="prose">
+        <p>
+          Friends and family call me <strong>Spesh</strong>. I'm a MacAdmin,
+          coder, music nerd, and gamer living in the greater Boston, MA area.
+          By day I'm a Client Platform Engineer working on Apple fleet
+          infrastructure; on the side I maintain a few open-source tools for
+          the MacAdmin community.
+        </p>
+      </div>
+
+      <aside class="callout">
+        <span class="callout-label">A note on names</span>
+        <p>
+          I'm in the process of taking my wife's last name. <strong>Speciale</strong>
+          is my legal last name today (you'll see it on my resume PDF), but
+          professionally I go by <strong>Lerman</strong> — soon to be my legal
+          name as well. If you find me as <em>Andrew Lerman</em> on GitHub,
+          MacAdmins Slack, or LinkedIn, that's me. Either way, just call me
+          Spesh.
+        </p>
+      </aside>
+
+    </section>
+
+    <!-- ── Liquid Zoo origin ── -->
+    <section class="section about-section">
+      <span class="section-label">// Why "Liquid Zoo"?</span>
+      <div class="prose">
+        <p>
+          The name is a personal nod to a fond memory — visiting the Atlanta
+          Aquarium during my Apple Genius training years ago. Someone joked
+          that aquariums are like "liquid zoos," and the name stuck. It also
+          works as a metaphor for my range of interests: technology, music,
+          gaming, software engineering, scripting (Python, shell, Swift), and
+          the occasional bit of web work.
+        </p>
+        <p>
+          <strong>The Zoo</strong> represents organized chaos — a bunch of
+          passions all living under one roof.
+        </p>
+      </div>
+    </section>
+
+    <!-- ── At a glance ── -->
+    <section class="section about-grid">
+      <div class="about-block">
+        <span class="section-label">// Currently</span>
+        <ul class="about-list">
+          <li>Client Platform Engineering</li>
+          <li>Endpoint security &amp; compliance</li>
+          <li>Patch automation at scale</li>
+          <li>Open-source MacAdmin tooling</li>
+        </ul>
+      </div>
+
+      <div class="about-block">
+        <span class="section-label">// Focus areas</span>
+        <ul class="about-list">
+          <li>Jamf Pro &amp; the Apple management stack</li>
+          <li>MDM &amp; declarative device management</li>
+          <li>Python automation</li>
+          <li>Infrastructure as Code</li>
+        </ul>
+      </div>
+
+      <div class="about-block">
+        <span class="section-label">// Outside tech</span>
+        <ul class="about-list">
+          <li>Single-player console games</li>
+          <li>Horror movies (Halloween is sacred)</li>
+          <li>Producing music &amp; podcasts</li>
+          <li>Family time</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ── Experience (pared, redacted employer names) ── -->
+    <section class="section resume-section">
+      <span class="section-label">// Experience</span>
+      <div class="resume-roles">
+        <article class="resume-role">
+          <header class="resume-role-head">
+            <div>
+              <h3 class="resume-role-title">Client Platform Engineer</h3>
+            </div>
+            <span class="resume-role-meta">Current</span>
+          </header>
+          <ul class="resume-bullets">
+            <li>Designed and led implementation of a full Infrastructure-as-Code pipeline for macOS MDM, aligning platform engineering and security around version-controlled, auditable deployments.</li>
+            <li>Built a Slack-based deployment system for Jamf App Installers, partnering with end users to refine notification behavior and improve adoption of update workflows.</li>
+            <li>Developed a real-time patch management dashboard integrating Jamf and CrowdStrike APIs, enabling security and IT to identify and respond to vulnerable endpoints faster.</li>
+            <li>Led migration from SimpleMDM to Jamf Pro with automated cleanup and communication workflows.</li>
+            <li>Collaborated with Security and Engineering on supply-chain security initiatives.</li>
+            <li>Expanded endpoint management to Windows environments via Microsoft Graph API, PowerShell, and GitHub Actions.</li>
+            <li>Built and open-sourced a Jamf MCP server, contributing to the broader MacAdmin community.</li>
+          </ul>
+        </article>
+
+        <article class="resume-role">
+          <header class="resume-role-head">
+            <div>
+              <h3 class="resume-role-title">Internal Systems Administrator II</h3>
+            </div>
+            <span class="resume-role-meta">Prior</span>
+          </header>
+          <ul class="resume-bullets">
+            <li>Championed the expansion of macOS adoption in a Windows-dominant environment, enabling a company-wide choice program.</li>
+            <li>Designed internal automation tools — desktop onboarding app, CLI troubleshooting suite — to improve consistency and reduce manual support load.</li>
+            <li>Integrated Jamf Pro with Apple Business Manager for fully automated device enrollment.</li>
+            <li>Implemented Jamf Protect with Security Operations to improve endpoint compliance and threat visibility.</li>
+            <li>Built a Slack-integrated diagnostics API that gave L1 support real-time system insights.</li>
+            <li>Enforced CVE-aligned patching policies via CrowdStrike Falcon detections.</li>
+            <li>Operationalized open-source tools (Nudge, Setup Your Mac) for compliance with a friendly user experience.</li>
+          </ul>
+        </article>
+
+        <article class="resume-role">
+          <header class="resume-role-head">
+            <div>
+              <h3 class="resume-role-title">Genius · Lead Trainer · Online Store Manager</h3>
+              <p class="resume-role-company">Apple Inc. · Multiple Locations, MA</p>
+            </div>
+            <span class="resume-role-meta">2010 — 2022</span>
+          </header>
+          <ul class="resume-bullets">
+            <li>Certified hardware and software repair technician; maintained a 94/100 team member satisfaction score during peak escalation periods.</li>
+            <li>Designed and led onboarding programs for 60+ new and seasonal employees across New England as Lead Trainer.</li>
+            <li>Managed escalated support cases for Apple's online store using SAP tools.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- ── Technical skills (from resume) ── -->
+    <section class="section resume-section">
+      <span class="section-label">// Technical skills</span>
+      <div class="resume-skills">
+        <div class="resume-skill-group">
+          <h4>Apple Ecosystem</h4>
+          <p>macOS, iOS, iPadOS, Apple Business Manager, DEP</p>
+        </div>
+        <div class="resume-skill-group">
+          <h4>Device Management</h4>
+          <p>Jamf Pro, Jamf Protect, Jamf Connect, SimpleMDM, Fleet</p>
+        </div>
+        <div class="resume-skill-group">
+          <h4>Infrastructure &amp; Automation</h4>
+          <p>Terraform, GitHub Actions, CI/CD, Workato, Okta Workflows</p>
+        </div>
+        <div class="resume-skill-group">
+          <h4>Scripting &amp; Development</h4>
+          <p>Python, Bash/zsh, Swift, JavaScript/TypeScript, REST APIs, Git</p>
+        </div>
+        <div class="resume-skill-group">
+          <h4>Security &amp; Compliance</h4>
+          <p>CrowdStrike Falcon, FileVault, OSQuery, Kolide, Koi</p>
+        </div>
+        <div class="resume-skill-group">
+          <h4>Identity &amp; Access</h4>
+          <p>Okta, Microsoft Entra ID, Google Workspace, ConductorOne, SailPoint</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Open source ── -->
+    <section class="section resume-section">
+      <span class="section-label">// Open source</span>
+      <ul class="resume-projects">
+        <li>
+          <strong>Patcher</strong> — Patch reporting for Jamf-managed fleets ·
+          <a href="https://github.com/liquidz00/Patcher" target="_blank" rel="noopener">GitHub</a> ·
+          <a href="https://patcher.readthedocs.io" target="_blank" rel="noopener">Docs</a>
+        </li>
+        <li>
+          <strong>JamfMCP</strong> — MCP server for Jamf Pro ·
+          <a href="https://github.com/liquidz00/JamfMCP" target="_blank" rel="noopener">GitHub</a> ·
+          <a href="https://jamfmcp.readthedocs.io" target="_blank" rel="noopener">Docs</a>
+        </li>
+        <li>
+          <strong>pymdm</strong> — Python toolkit for MDM workflows ·
+          <a href="https://github.com/liquidz00/pymdm" target="_blank" rel="noopener">GitHub</a> ·
+          <a href="https://pymdm.readthedocs.io" target="_blank" rel="noopener">Docs</a>
+        </li>
+      </ul>
+      <p class="prose">
+        More on the <a href="/projects/">projects page</a>.
+      </p>
+    </section>
+
+    <!-- ── Certifications ── -->
+    <section class="section resume-section">
+      <span class="section-label">// Certifications</span>
+      <div class="cert-grid">
+        <div class="cert-tag">Jamf 400 · Certified Expert</div>
+        <div class="cert-tag">Jamf 370 · Endpoint Security Admin</div>
+        <div class="cert-tag">Jamf 300 · Certified Admin</div>
+        <div class="cert-tag">Jamf 200 · Certified Technician</div>
+        <div class="cert-tag">ACMT · Apple Certified Mac Technician</div>
+        <div class="cert-tag">ACiT · Apple Certified iOS Technician</div>
+      </div>
+    </section>
+
+    <!-- ── Get in touch ── -->
+    <section class="section about-section">
+      <span class="section-label">// Get in touch</span>
+      <div class="prose">
+        <p>
+          The fastest way to reach me is a DM on the
+          <a href="https://www.macadmins.org/" target="_blank" rel="noopener">MacAdmins Slack</a>
+          — I'm there as <strong>@spesh</strong>. You can also find me on
+          <a href="https://github.com/liquidz00" target="_blank" rel="noopener">GitHub</a>,
+          <a href="https://community.jamf.com/t5/user/viewprofilepage/user-id/140536" target="_blank" rel="noopener">JamfNation</a>,
+          or
+          <a href="https://linkedin.com/in/andrewspeciale" target="_blank" rel="noopener">LinkedIn</a>.
+        </p>
+        <p>
+          Need a copy of my resume? <strong>Reach out via Slack or LinkedIn</strong> and I'll send the PDF over.
+        </p>
+        <p>
+          Prefer not to use any of the above? Drop a note here:
+        </p>
+      </div>
+
+      <ContactForm />
+    </section>
+  </main>
+</BaseLayout>

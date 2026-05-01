@@ -1,0 +1,57 @@
+---
+// ContactForm
+// ------------------------------------------------------------
+// This is a plain HTML form that POSTs to a third-party form
+// service (Formspree by default — free tier handles spam,
+// delivers submissions to your email). No backend required, so
+// it works fine on a static GitHub Pages site.
+//
+// Setup:
+//   1. Sign up at https://formspree.io and create a new form.
+//   2. Copy the form's endpoint (looks like https://formspree.io/f/abcwxyz).
+//   3. Replace FORM_ENDPOINT below with your endpoint.
+//
+// Until FORM_ENDPOINT is set, the form is rendered in a disabled
+// "coming soon" state so it can't post anywhere unintended.
+
+const FORM_ENDPOINT = 'https://formspree.io/f/xvzlgbqa';
+const isConfigured = FORM_ENDPOINT.length > 0;
+---
+
+<form
+  class="contact-form"
+  action={isConfigured ? FORM_ENDPOINT : undefined}
+  method={isConfigured ? 'POST' : undefined}
+>
+  <div class="contact-field">
+    <label for="contact-name">Name</label>
+    <input id="contact-name" name="name" type="text" required disabled={!isConfigured} />
+  </div>
+
+  <div class="contact-field">
+    <label for="contact-email">Email</label>
+    <input id="contact-email" name="email" type="email" required disabled={!isConfigured} />
+  </div>
+
+  <div class="contact-field">
+    <label for="contact-message">Message</label>
+    <textarea id="contact-message" name="message" rows="5" required disabled={!isConfigured}></textarea>
+  </div>
+
+  {/* Honeypot — bots fill this in, humans don't see it. Formspree's `_gotcha` convention. */}
+  <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="contact-honeypot" aria-hidden="true" />
+
+  {/* Sets the subject line on the email Formspree forwards to you. */}
+  <input type="hidden" name="_subject" value="New message from liquidzoo.io" />
+
+  <div class="contact-submit-row">
+    <button type="submit" class="btn-primary" disabled={!isConfigured}>
+      Send Message ↗
+    </button>
+    {!isConfigured && (
+      <p class="contact-disabled-note">
+        Form not configured yet — DM me on MacAdmins Slack instead.
+      </p>
+    )}
+  </div>
+</form>

@@ -1,0 +1,64 @@
+---
+import ProjectCard from './ProjectCard.astro';
+
+interface Props {
+  showHeader?: boolean;
+  headerLabel?: string;
+  headerTitle?: string;
+}
+
+const {
+  showHeader = true,
+  headerLabel = '// Projects',
+  headerTitle = 'Selected Work',
+} = Astro.props;
+
+const projects = [
+  {
+    tag: 'Open Source',
+    name: 'Patcher',
+    desc: 'Patch reporting and analytics for Jamf-managed Apple fleets. Surfaces software title coverage so patching is visible and auditable.',
+    stack: ['Python', 'Jamf Pro API'],
+    href: 'https://github.com/liquidz00/Patcher',
+    docsHref: 'https://patcher.readthedocs.io',
+  },
+  {
+    tag: 'Open Source',
+    name: 'JamfMCP',
+    desc: 'Model Context Protocol server for Jamf Pro — lets LLM tools query and act against a Jamf instance through a standard interface.',
+    stack: ['Python', 'MCP', 'Jamf Pro API'],
+    href: 'https://github.com/liquidz00/JamfMCP',
+    docsHref: 'https://jamfmcp.readthedocs.io',
+  },
+  {
+    tag: 'Open Source',
+    name: 'pymdm',
+    desc: 'Python toolkit for working with MDM workflows — building blocks for managing Apple endpoints programmatically.',
+    stack: ['Python', 'MDM'],
+    href: 'https://github.com/liquidz00/pymdm',
+    docsHref: 'https://pymdm.readthedocs.io',
+  },
+];
+---
+
+<section class="section">
+  {showHeader && (
+    <div class="section-header">
+      <span class="section-label">{headerLabel}</span>
+      <h2 class="section-title">{headerTitle}</h2>
+    </div>
+  )}
+
+  <div class="projects-grid">
+    {projects.map((project) => (
+      <ProjectCard
+        tag={project.tag}
+        name={project.name}
+        desc={project.desc}
+        stack={project.stack}
+        href={project.href}
+        docsHref={project.docsHref}
+      />
+    ))}
+  </div>
+</section>

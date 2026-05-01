@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectsGrid from '../../components/ProjectsGrid.astro';
+---
+
+<BaseLayout title="Projects | Liquid Zoo">
+  <main class="page">
+    <section class="section page-intro">
+      <div class="section-header">
+        <span class="section-label">// Projects</span>
+        <h1 class="section-title">Open-source work</h1>
+      </div>
+      <p class="prose">
+        Tools I build and maintain for the MacAdmin community. Each project
+        ships with documentation on Read the Docs and source on GitHub.
+      </p>
+    </section>
+
+    <ProjectsGrid showHeader={false} />
+  </main>
+</BaseLayout>
