@@ -1,7 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 
-const { post, newer, older } = Astro.props;
+const { post } = Astro.props;
 const description =
   post.data.description ??
   `${post.data.title} — writing by Andrew Speciale (spesh).`;
@@ -17,7 +17,7 @@ const formatDate = (d: Date) =>
 
 <BaseLayout title={`${post.data.title} | Liquid Zoo`} description={description}>
   <main class="page">
-    <article class="blog-post">
+    <article class="blog-post" id="top">
       <header class="blog-post-header">
         <div class="blog-post-meta">
           <time datetime={post.data.date.toISOString()}>
@@ -47,27 +47,6 @@ const formatDate = (d: Date) =>
       <div class="blog-post-body" data-hero-fit={heroFit}>
         <slot />
       </div>
-
-      {(older || newer) && (
-        <nav class="blog-post-nav" aria-label="More posts">
-          {older ? (
-            <a class="blog-post-nav-link blog-post-nav-older" href={`/blog/${older.id}/`}>
-              <span class="blog-post-nav-direction">← Older post</span>
-              <span class="blog-post-nav-title">{older.data.title}</span>
-            </a>
-          ) : (
-            <span class="blog-post-nav-spacer" aria-hidden="true"></span>
-          )}
-          {newer ? (
-            <a class="blog-post-nav-link blog-post-nav-newer" href={`/blog/${newer.id}/`}>
-              <span class="blog-post-nav-direction">Newer post →</span>
-              <span class="blog-post-nav-title">{newer.data.title}</span>
-            </a>
-          ) : (
-            <span class="blog-post-nav-spacer" aria-hidden="true"></span>
-          )}
-        </nav>
-      )}
     </article>
   </main>
 </BaseLayout>

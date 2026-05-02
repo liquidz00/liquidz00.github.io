@@ -902,6 +902,16 @@ footer {
   max-width: 680px;
   color: var(--text);
 }
+
+/* On /about, .prose blocks inside the About-style sections (hero, "Why
+   Liquid Zoo?", Life outside tech, Daily tools, Get in touch) should
+   fill the section width so they line up with the resume sections.
+   The .resume-section's own .prose (e.g. "More on the projects page"
+   under Open source) is intentionally unaffected — different selector. */
+.about-hero .prose,
+.about-section .prose {
+  max-width: none;
+}
 .prose p {
   margin-bottom: 18px;
   color: var(--text-dim);
@@ -1150,47 +1160,102 @@ footer {
   letter-spacing: 0.04em;
 }
 
-.about-section {
-  padding-top: 0;
-  padding-bottom: 64px;
+/* All non-hero sections on /about share the same visual treatment as
+   .resume-section — top border separating sections, consistent padding. */
+.about-section,
+.about .resume-section {
+  padding-top: 48px;
+  padding-bottom: 48px;
+  border-top: 1px solid var(--border);
 }
-.about-section .section-label {
+.about-section .section-label,
+.about .resume-section > .section-label {
   display: block;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
-.about-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
-  padding-top: 0;
-}
-
-.about-block .section-label {
-  display: block;
-  margin-bottom: 16px;
-}
-
-.about-list {
+/* Bullet list inside .prose paragraphs on /about — used in the Life
+   outside tech section. Mono-spaced labels with emoji affordances. */
+.about-bullets {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
+  margin: 12px 0 0 !important;
+  padding: 0 !important;
 }
-.about-list li {
-  font-family: var(--mono);
-  font-size: 13px;
+.about-bullets li {
   color: var(--text-dim);
+  line-height: 1.6;
+  padding-left: 16px;
+  border-left: 1px solid var(--border);
+}
+.about-bullets em {
+  color: var(--text);
+  font-style: italic;
+}
+
+/* ============================================================
+   Daily tools (used on /about)
+   ------------------------------------------------------------
+   Two-column grid of grouped tool lists. Each group has a small
+   emoji + heading and a list of links. Collapses to one column
+   on smaller screens.
+   ============================================================ */
+
+.daily-tools {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px 48px;
+  margin-top: 32px;
+}
+
+.daily-tools-group h4 {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+.daily-tools-group p {
+  color: var(--text-dim);
+  font-size: 14px;
+  line-height: 1.65;
+  margin-bottom: 12px;
+}
+.daily-tools-group ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0;
+  margin: 0;
+}
+.daily-tools-group li {
+  color: var(--text-dim);
+  font-size: 14px;
+  line-height: 1.6;
   padding-left: 12px;
   border-left: 1px solid var(--border);
 }
-.about-list a {
-  color: var(--text-dim);
+.daily-tools-group a {
+  color: var(--accent2);
   text-decoration: none;
   transition: color 0.2s;
 }
-.about-list a:hover {
+.daily-tools-group a:hover {
   color: var(--accent);
+}
+.daily-tools-group code {
+  font-family: var(--mono);
+  font-size: 12px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 1px 5px;
+  border-radius: 2px;
+  color: var(--text);
 }
 
 /* ============================================================
@@ -1428,56 +1493,6 @@ footer {
   margin-bottom: 32px;
 }
 
-/* ============================================================
-   Blog post nav (prev / next)
-   ------------------------------------------------------------
-   Two-cell grid at the bottom of each post — older on the left,
-   newer on the right. When only one neighbor exists the missing
-   side is replaced with a spacer so the present link keeps its
-   alignment.
-   ============================================================ */
-.blog-post-nav {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
-  margin-top: 64px;
-}
-.blog-post-nav-link {
-  background: var(--bg);
-  padding: 24px 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  text-decoration: none;
-  color: inherit;
-  transition: background 0.2s;
-}
-.blog-post-nav-link:hover {
-  background: var(--bg2);
-}
-.blog-post-nav-newer {
-  text-align: right;
-  align-items: flex-end;
-}
-.blog-post-nav-direction {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--accent);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.blog-post-nav-title {
-  font-family: var(--display);
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 1.3;
-  color: var(--text);
-}
-.blog-post-nav-spacer {
-  background: var(--bg);
-}
 
 /* ============================================================
    Responsive
@@ -1497,9 +1512,9 @@ footer {
     gap: 18px;
   }
 
-  .about-grid {
+  .daily-tools {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 32px;
   }
 
   .resume-header {
@@ -1616,16 +1631,6 @@ footer {
     padding: 24px 20px 64px;
   }
 
-  .blog-post-nav {
-    grid-template-columns: 1fr;
-  }
-  .blog-post-nav-newer {
-    text-align: left;
-    align-items: flex-start;
-  }
-  .blog-post-nav-spacer {
-    display: none;
-  }
 
   .resume-role-head {
     flex-direction: column;
