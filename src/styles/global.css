@@ -1281,12 +1281,25 @@ footer {
    Project card — multi-link variant
    ============================================================ */
 
+/* Whole-card-clickable pattern for cards with both repo + docs links.
+   The cover anchor stretches across the card and points to the docs
+   URL; the explicit Code/Docs buttons sit above it via z-index so they
+   intercept their own clicks. */
+.project-card-cover {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  /* Visually invisible — exists only to make the card clickable */
+}
+
 .project-links {
   display: flex;
   gap: 16px;
   margin-top: 20px;
   border-top: 1px solid var(--border);
   padding-top: 16px;
+  position: relative;
+  z-index: 2;
 }
 .project-link {
   font-family: var(--mono);
@@ -1491,12 +1504,138 @@ footer {
   color: var(--accent);
 }
 
+/* Two-column layout for paired sections (e.g. Open source + Certs).
+   Each cell holds its own section-label so each column reads as its
+   own mini-section. Collapses to one column under 700px. */
+.resume-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px 64px;
+  align-items: start;
+}
+.resume-two-col-cell .section-label {
+  display: block;
+  margin-bottom: 20px;
+}
+.resume-projects-more {
+  margin-top: 16px;
+  font-size: 13px;
+}
+@media (max-width: 700px) {
+  .resume-two-col {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
 /* Blog post tag chips shown above the post body. */
 .blog-post-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
   margin-bottom: 32px;
+}
+
+/* ============================================================
+   Post nav (Previous / Next at bottom of each blog post)
+   ------------------------------------------------------------
+   Rendered as a sibling of <article>, not a child — so nothing
+   inside the article context can affect its position. Sphinx-
+   style two-cell layout: chevron + Previous label + title on
+   the left, Next label + title + chevron on the right. Width
+   matches the article column (760px max).
+   ============================================================ */
+.postnav {
+  position: static;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 48px 80px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.postnav-link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+  color: inherit;
+  max-width: 48%;
+  min-width: 0;
+}
+.postnav-next {
+  margin-left: auto;
+}
+
+.postnav-link:hover .postnav-title,
+.postnav-link:hover .postnav-chevron {
+  color: var(--accent);
+}
+
+.postnav-chevron {
+  font-size: 28px;
+  font-weight: 200;
+  color: var(--text-muted);
+  line-height: 1;
+  flex-shrink: 0;
+  transition: color 0.2s;
+}
+
+.postnav-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.postnav-next .postnav-text {
+  text-align: right;
+  align-items: flex-end;
+}
+
+.postnav-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.postnav-title {
+  font-family: var(--display);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.3;
+  transition: color 0.2s;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.postnav-spacer {
+  display: block;
+}
+
+@media (max-width: 640px) {
+  .postnav {
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px 20px 64px;
+  }
+  .postnav-link {
+    max-width: 100%;
+  }
+  .postnav-next {
+    margin-left: 0;
+  }
+  .postnav-next .postnav-text {
+    text-align: left;
+    align-items: flex-start;
+  }
 }
 
 

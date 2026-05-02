@@ -1,7 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 
-const { post } = Astro.props;
+const { post, prev, next } = Astro.props;
 const description =
   post.data.description ??
   `${post.data.title} — writing by Andrew Speciale (spesh).`;
@@ -48,5 +48,29 @@ const formatDate = (d: Date) =>
         <slot />
       </div>
     </article>
+
+    {(prev || next) && (
+      <nav class="postnav" aria-label="Post navigation">
+        {prev ? (
+          <a class="postnav-link postnav-prev" href={`/blog/${prev.id}/`}>
+            <span class="postnav-chevron" aria-hidden="true">‹</span>
+            <span class="postnav-text">
+              <span class="postnav-label">Previous</span>
+              <span class="postnav-title">{prev.data.title}</span>
+            </span>
+          </a>
+        ) : <span class="postnav-spacer"></span>}
+
+        {next ? (
+          <a class="postnav-link postnav-next" href={`/blog/${next.id}/`}>
+            <span class="postnav-text">
+              <span class="postnav-label">Next</span>
+              <span class="postnav-title">{next.data.title}</span>
+            </span>
+            <span class="postnav-chevron" aria-hidden="true">›</span>
+          </a>
+        ) : <span class="postnav-spacer"></span>}
+      </nav>
+    )}
   </main>
 </BaseLayout>

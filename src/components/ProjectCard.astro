@@ -10,10 +10,14 @@ interface Props {
 
 const { tag, name, desc, stack = [], href, docsHref } = Astro.props;
 
-// If we have both a repo link AND a docs link, render as a non-anchor card
-// with explicit action buttons. Otherwise the card itself is the link
-// (cleaner UX on the homepage where each card has one destination).
 const hasMultipleLinks = Boolean(href && docsHref);
+
+// When the card has both repo + docs links, render as a <div> with an
+// invisible "cover" anchor stretched across the whole card pointing to
+// the docs URL (preferred destination for visitors). The Code/Docs
+// buttons inside the card sit on top of the cover via z-index, so each
+// intercepts its own clicks. When only one link exists, the card itself
+// becomes the <a>.
 const Tag = hasMultipleLinks ? 'div' : href ? 'a' : 'div';
 const cardHref = hasMultipleLinks ? undefined : href;
 const isExternal = (url?: string) => url?.startsWith('http');
@@ -25,6 +29,16 @@ const isExternal = (url?: string) => url?.startsWith('http');
   target={isExternal(cardHref) ? '_blank' : undefined}
   rel={isExternal(cardHref) ? 'noopener' : undefined}
 >
+  {hasMultipleLinks && docsHref && (
+    <a
+      class="project-card-cover"
+      href={docsHref}
+      target={isExternal(docsHref) ? '_blank' : undefined}
+      rel={isExternal(docsHref) ? 'noopener' : undefined}
+      aria-label={`Open ${name} documentation`}
+    ></a>
+  )}
+
   <div class="project-tag">{tag}</div>
   <div class="project-name">{name}</div>
   <p class="project-desc">{desc}</p>
