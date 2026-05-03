@@ -1,0 +1,46 @@
+---
+// Standardized section wrapper used across pages.
+//
+// Renders the eyebrow `// label` + heading pair with consistent markup,
+// and emits a real <h1>/<h2> for accessibility even when the visual
+// label is the small mono "// label" line.
+//
+// Usage:
+//   <Section label="// Projects" title="Selected Work" />        — h2 + visible title
+//   <Section label="// Projects" title="Selected Work" as="h1" /> — h1 (top-level page heading)
+//   <Section label="// Skills" />                                 — h2 from label, no extra title
+//   <Section label="// Skills" titleHidden />                     — heading rendered, visually hidden
+
+interface Props {
+  label: string;
+  title?: string;
+  as?: 'h1' | 'h2';
+  titleHidden?: boolean;
+  class?: string;
+}
+
+const {
+  label,
+  title,
+  as: Heading = 'h2',
+  titleHidden = false,
+  class: className = '',
+} = Astro.props;
+
+const headingText = title ?? label.replace(/^\/\/\s*/, '');
+---
+
+<section class:list={['section', className]}>
+  {title ? (
+    <div class="section-header">
+      <span class="section-label">{label}</span>
+      <Heading class="section-title">{title}</Heading>
+    </div>
+  ) : (
+    <>
+      <span class="section-label">{label}</span>
+      <Heading class="sr-only">{headingText}</Heading>
+    </>
+  )}
+  <slot />
+</section>

@@ -13,13 +13,18 @@
   --bg2: #161616;
   --bg3: #1e1e1e;
   --border: rgba(255, 255, 255, 0.07);
+  --border-hover: rgba(255, 255, 255, 0.18);
   --text: #e8e6e1;
   --text-muted: #6b6963;
   --text-dim: #9e9b96;
   --accent: #e87d3f;
-  --accent2: #4f9cf9;
+  --accent-hover: #f09050;
   --accent-glow: rgba(232, 125, 63, 0.15);
+  --accent-shadow: rgba(232, 125, 63, 0.3);
+  --accent2: #4f9cf9;
   --accent2-glow: rgba(79, 156, 249, 0.12);
+  --accent2-tint: rgba(79, 156, 249, 0.15);
+  --accent2-line: rgba(79, 156, 249, 0.4);
   --nav-bg: rgba(15, 15, 15, 0.85);
   --outline-stroke: rgba(232, 125, 63, 0.45);
   --grid-line: rgba(255, 255, 255, 0.022);
@@ -34,13 +39,18 @@
   --bg2: #edeae6;
   --bg3: #e2deda;
   --border: rgba(0, 0, 0, 0.08);
+  --border-hover: rgba(0, 0, 0, 0.18);
   --text: #1a1816;
   --text-muted: #8a8582;
   --text-dim: #5a5754;
   --accent: #c96520;
-  --accent2: #2563c4;
+  --accent-hover: #df7a30;
   --accent-glow: rgba(201, 101, 32, 0.12);
+  --accent-shadow: rgba(201, 101, 32, 0.25);
+  --accent2: #2563c4;
   --accent2-glow: rgba(37, 99, 196, 0.1);
+  --accent2-tint: rgba(37, 99, 196, 0.15);
+  --accent2-line: rgba(37, 99, 196, 0.4);
   --nav-bg: rgba(247, 245, 242, 0.88);
   --outline-stroke: rgba(201, 101, 32, 0.35);
   --grid-line: rgba(0, 0, 0, 0.04);
@@ -60,6 +70,20 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+/* Visually hide an element while keeping it in the accessibility tree
+   (used for semantic headings on sections that show only a // label). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 body {
@@ -222,10 +246,7 @@ nav {
 }
 .theme-toggle:hover {
   color: var(--text);
-  border-color: rgba(255, 255, 255, 0.18);
-}
-[data-theme="light"] .theme-toggle:hover {
-  border-color: rgba(0, 0, 0, 0.18);
+  border-color: var(--border-hover);
 }
 .theme-toggle .icon-sun {
   display: none;
@@ -344,8 +365,8 @@ nav {
   box-shadow: 0 0 28px var(--accent-glow);
 }
 .btn-primary:hover {
-  background: #f09050;
-  box-shadow: 0 0 48px rgba(232, 125, 63, 0.3);
+  background: var(--accent-hover);
+  box-shadow: 0 0 48px var(--accent-shadow);
   transform: translateY(-1px);
 }
 
@@ -366,7 +387,7 @@ nav {
 }
 .btn-ghost:hover {
   color: var(--text);
-  border-color: rgba(255, 255, 255, 0.15);
+  border-color: var(--border-hover);
 }
 
 .hero-socials {
@@ -396,17 +417,6 @@ nav {
   border-color: var(--accent);
 }
 
-.hero-badge {
-  position: absolute;
-  right: 48px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  animation: fadeLeft 0.8s 0.5s ease both;
-}
-
 .cert-tag {
   font-family: var(--mono);
   font-size: 11px;
@@ -416,14 +426,7 @@ nav {
   border-left: 2px solid var(--accent2);
   padding: 9px 16px;
   letter-spacing: 0.04em;
-  transition: all 0.2s;
   white-space: nowrap;
-}
-.cert-tag:hover {
-  color: var(--text);
-  border-left-color: var(--accent);
-  background: var(--bg3);
-  transform: translateX(-4px);
 }
 
 /* ============================================================
@@ -470,6 +473,56 @@ nav {
   color: var(--text-muted);
   letter-spacing: 0.1em;
   text-transform: uppercase;
+}
+
+/* ============================================================
+   Posts list
+   ============================================================ */
+
+.posts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+.post-row {
+  background: var(--bg);
+  padding: 22px 32px;
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  transition: background 0.2s;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+.post-row:hover {
+  background: var(--bg2);
+}
+.post-date {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  min-width: 72px;
+}
+.post-title {
+  font-size: 15px;
+  font-weight: 500;
+  flex: 1;
+}
+.post-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--accent2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--accent2-glow);
+  border: 1px solid var(--accent2-tint);
+  padding: 3px 8px;
+  border-radius: 2px;
 }
 
 /* ============================================================
@@ -563,83 +616,27 @@ nav {
 }
 
 /* ============================================================
-   Posts list
+   Project card — multi-link variant
    ============================================================ */
 
-.posts-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
-}
-.post-row {
-  background: var(--bg);
-  padding: 22px 32px;
-  display: flex;
-  align-items: baseline;
-  gap: 24px;
-  transition: background 0.2s;
-  cursor: pointer;
-  text-decoration: none;
-  color: inherit;
-}
-.post-row:hover {
-  background: var(--bg2);
-}
-.post-date {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--text-muted);
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-  min-width: 72px;
-}
-.post-title {
-  font-size: 15px;
-  font-weight: 500;
-  flex: 1;
-}
-.post-tag {
-  font-family: var(--mono);
-  font-size: 10px;
-  color: var(--accent2);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  background: var(--accent2-glow);
-  border: 1px solid rgba(79, 156, 249, 0.15);
-  padding: 3px 8px;
-  border-radius: 2px;
+/* Stretched anchor that makes the entire card clickable. The Code/Docs
+   buttons inside the card sit above it via z-index. */
+.project-card-cover {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 }
 
-/* ============================================================
-   Footer
-   ============================================================ */
-
-footer {
-  border-top: 1px solid var(--border);
-  padding: 32px 48px;
+.project-links {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
   gap: 16px;
+  margin-top: 20px;
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  position: relative;
+  z-index: 2;
 }
-.footer-left {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--text-muted);
-  letter-spacing: 0.04em;
-}
-.footer-left span {
-  color: var(--accent);
-}
-.footer-links {
-  display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-.footer-links a {
+.project-link {
   font-family: var(--mono);
   font-size: 11px;
   color: var(--text-muted);
@@ -648,242 +645,8 @@ footer {
   text-transform: uppercase;
   transition: color 0.2s;
 }
-.footer-links a:hover {
+.project-link:hover {
   color: var(--accent);
-}
-
-.footer-socials {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-}
-.footer-socials a {
-  color: var(--text-muted);
-  font-size: 18px;
-  text-decoration: none;
-  transition:
-    color 0.2s,
-    transform 0.15s;
-  display: flex;
-  align-items: center;
-}
-.footer-socials a:hover {
-  color: var(--accent);
-  transform: translateY(-2px);
-}
-
-/* ============================================================
-   Blog post layout
-   ------------------------------------------------------------
-   Structure:
-     <article.blog-post>
-       <header.blog-post-header>
-         <div.blog-post-meta>     (date · updated)
-         <h1>
-         <div.blog-post-tags>     (tag chips)
-       <div.blog-post-body>        (rendered markdown)
-   ============================================================ */
-
-.blog-post {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 48px 48px 96px;
-}
-
-/* ── Header ── */
-.blog-post-header {
-  margin-bottom: 32px;
-}
-.blog-post-meta {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--text-muted);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-}
-.blog-post-meta time {
-  color: var(--text-muted);
-}
-.blog-post-meta-sep {
-  color: var(--text-muted);
-  opacity: 0.6;
-}
-.blog-post-header h1 {
-  font-family: var(--display);
-  font-size: clamp(32px, 5vw, 48px);
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  margin-bottom: 16px;
-}
-.blog-post-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-/* ── Body typography ── */
-.blog-post-body h2 {
-  font-family: var(--display);
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  margin: 48px 0 16px;
-}
-.blog-post-body h3 {
-  font-family: var(--display);
-  font-size: 20px;
-  font-weight: 600;
-  margin: 32px 0 12px;
-}
-.blog-post-body p {
-  margin-bottom: 18px;
-  color: var(--text);
-  line-height: 1.7;
-}
-.blog-post-body a {
-  color: var(--accent2);
-  text-decoration: underline;
-  text-decoration-color: rgba(79, 156, 249, 0.4);
-  text-underline-offset: 2px;
-}
-.blog-post-body a:hover {
-  color: var(--accent);
-  text-decoration-color: var(--accent);
-}
-.blog-post-body ul,
-.blog-post-body ol {
-  margin: 0 0 18px 24px;
-}
-.blog-post-body li {
-  margin-bottom: 6px;
-}
-.blog-post-body code {
-  font-family: var(--mono);
-  font-size: 13px;
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  padding: 1px 6px;
-  border-radius: 2px;
-}
-.blog-post-body pre {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  padding: 16px;
-  border-radius: 2px;
-  overflow-x: auto;
-  margin-bottom: 18px;
-}
-.blog-post-body pre code {
-  background: none;
-  border: none;
-  padding: 0;
-}
-.blog-post-body blockquote {
-  border-left: 2px solid var(--accent);
-  padding-left: 16px;
-  color: var(--text-dim);
-  margin: 18px 0;
-}
-
-/* ── Images ──
-   Forcing block + auto margin makes images render on their own line
-   even when the markdown places them in the same paragraph as a
-   following italic caption (e.g. ![alt](src)\n_caption_). The caption
-   selector below picks up that pattern and renders it as a centered
-   caption underneath the image. */
-.blog-post-body img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  margin: 32px auto 8px;
-  border: 1px solid var(--border);
-  border-radius: 2px;
-}
-.blog-post-body p img + em {
-  display: block;
-  text-align: center;
-  font-style: italic;
-  font-size: 12px;
-  color: var(--text-muted);
-  margin: 0 auto 32px;
-  max-width: 80%;
-}
-
-/* ── Hero image ──
-   The first image in the post body gets consistent presence. Behavior
-   is controlled by frontmatter `heroFit` (default "cover"):
-     - cover:   fixed 320px height, image cropped to fill — works for
-                wide banners and gives every post a uniform frame.
-     - contain: natural aspect, no forced crop — better for square
-                portraits, icons, or anything you don't want cropped.
-   Markdown wraps single-image lines in a <p>, so we target the first
-   <p>'s <img>. */
-.blog-post-body[data-hero-fit="cover"] > p:first-child img {
-  width: 100%;
-  height: 320px;
-  object-fit: cover;
-  margin-top: 0;
-}
-.blog-post-body[data-hero-fit="contain"] > p:first-child img {
-  margin-top: 0;
-  max-height: 360px;
-  width: auto;
-}
-
-/* ============================================================
-   Animations
-   ============================================================ */
-
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-@keyframes fadeDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-@keyframes fadeLeft {
-  from {
-    opacity: 0;
-    transform: translate(20px, -50%);
-  }
-  to {
-    opacity: 1;
-    transform: translate(0, -50%);
-  }
-}
-
-/* ============================================================
-   Scrollbar
-   ============================================================ */
-
-::-webkit-scrollbar {
-  width: 4px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--bg3);
-  border-radius: 2px;
 }
 
 /* ============================================================
@@ -903,11 +666,8 @@ footer {
   color: var(--text);
 }
 
-/* On /about, .prose blocks inside the About-style sections (hero, "Why
-   Liquid Zoo?", Life outside tech, Daily tools, Get in touch) should
-   fill the section width so they line up with the resume sections.
-   The .resume-section's own .prose (e.g. "More on the projects page"
-   under Open source) is intentionally unaffected — different selector. */
+/* About sections' .prose fills the section column to match the resume
+   sections; .resume-section's own .prose is unaffected (different selector). */
 .about-hero .prose,
 .about-section .prose {
   max-width: none;
@@ -923,7 +683,7 @@ footer {
 .prose a {
   color: var(--accent2);
   text-decoration: underline;
-  text-decoration-color: rgba(79, 156, 249, 0.4);
+  text-decoration-color: var(--accent2-line);
   text-underline-offset: 2px;
 }
 .prose a:hover {
@@ -994,214 +754,6 @@ footer {
 }
 
 /* ============================================================
-   Message pages (404, /thanks, etc.)
-   ------------------------------------------------------------
-   Shared layout for short standalone pages: a small mono eyebrow,
-   a big display title, optional subtitle, body copy, then a row
-   of buttons that get the visitor back to a real page.
-   ============================================================ */
-
-.message-page {
-  min-height: calc(100vh - 200px);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 120px 48px 96px;
-  max-width: 880px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-.message-eyebrow {
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--accent);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  margin-bottom: 24px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.message-eyebrow::before {
-  content: "";
-  display: block;
-  width: 32px;
-  height: 1px;
-  background: var(--accent);
-}
-
-.message-title {
-  font-family: var(--display);
-  font-size: clamp(40px, 7vw, 88px);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.03em;
-  margin-bottom: 20px;
-}
-
-/* Stroked outline treatment — reuses the hero name's look. */
-.message-outline {
-  color: transparent;
-  -webkit-text-stroke: 1.5px var(--outline-stroke);
-}
-
-.message-subtitle {
-  font-family: var(--display);
-  font-size: clamp(20px, 3vw, 28px);
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 20px;
-  letter-spacing: -0.01em;
-}
-
-.message-body {
-  font-size: 16px;
-  color: var(--text-dim);
-  line-height: 1.6;
-  max-width: 540px;
-  margin-bottom: 40px;
-}
-
-.message-actions {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-@media (max-width: 640px) {
-  .message-page {
-    padding: 96px 20px 64px;
-  }
-  .message-actions .btn-primary,
-  .message-actions .btn-ghost {
-    flex: 1 1 auto;
-    justify-content: center;
-  }
-}
-
-/* ============================================================
-   Contact form (used on /about)
-   ============================================================ */
-
-.contact-form {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  max-width: 560px;
-  margin-top: 24px;
-}
-
-.contact-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.contact-field label {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--text-muted);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.contact-field input,
-.contact-field textarea {
-  font-family: var(--body);
-  font-size: 14px;
-  color: var(--text);
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 2px;
-  padding: 10px 12px;
-  width: 100%;
-  transition: border-color 0.2s, background 0.2s;
-}
-.contact-field textarea {
-  resize: vertical;
-  min-height: 120px;
-  font-family: var(--body);
-}
-.contact-field input:focus,
-.contact-field textarea:focus {
-  outline: none;
-  border-color: var(--accent);
-  background: var(--bg3);
-}
-.contact-field input:disabled,
-.contact-field textarea:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* Honeypot field — visually hidden, accessible-tree hidden, but
-   still in the DOM so bots auto-fill it. */
-.contact-honeypot {
-  position: absolute;
-  left: -9999px;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
-}
-
-.contact-submit-row {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-.contact-submit-row .btn-primary[disabled] {
-  opacity: 0.5;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-.contact-submit-row .btn-primary[disabled]:hover {
-  transform: none;
-  background: var(--accent);
-  box-shadow: none;
-}
-.contact-disabled-note {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--text-muted);
-  letter-spacing: 0.04em;
-}
-
-/* All non-hero sections on /about share the same visual treatment as
-   .resume-section — top border separating sections, consistent padding. */
-.about-section,
-.about .resume-section {
-  padding-top: 48px;
-  padding-bottom: 48px;
-  border-top: 1px solid var(--border);
-}
-.about-section .section-label,
-.about .resume-section > .section-label {
-  display: block;
-  margin-bottom: 20px;
-}
-
-/* Bullet list inside .prose paragraphs on /about — used in the Life
-   outside tech section. Mono-spaced labels with emoji affordances. */
-.about-bullets {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin: 12px 0 0 !important;
-  padding: 0 !important;
-}
-.about-bullets li {
-  color: var(--text-dim);
-  line-height: 1.6;
-  padding-left: 16px;
-  border-left: 1px solid var(--border);
-}
-.about-bullets em {
-  color: var(--text);
-  font-style: italic;
-}
-
-/* ============================================================
    Daily tools (used on /about)
    ------------------------------------------------------------
    Two-column grid of grouped tool lists. Each group has a small
@@ -1265,7 +817,7 @@ footer {
 }
 
 /* ============================================================
-   Cert grid (used on /about and /resume)
+   Cert grid (used on /about)
    ============================================================ */
 
 .cert-grid {
@@ -1273,124 +825,10 @@ footer {
   flex-wrap: wrap;
   gap: 8px;
 }
-.cert-grid .cert-tag {
-  cursor: default;
-}
 
 /* ============================================================
-   Project card — multi-link variant
+   Resume sections (used inside /about)
    ============================================================ */
-
-/* Whole-card-clickable pattern for cards with both repo + docs links.
-   The cover anchor stretches across the card and points to the docs
-   URL; the explicit Code/Docs buttons sit above it via z-index so they
-   intercept their own clicks. */
-.project-card-cover {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  /* Visually invisible — exists only to make the card clickable */
-}
-
-.project-links {
-  display: flex;
-  gap: 16px;
-  margin-top: 20px;
-  border-top: 1px solid var(--border);
-  padding-top: 16px;
-  position: relative;
-  z-index: 2;
-}
-.project-link {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--text-muted);
-  text-decoration: none;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  transition: color 0.2s;
-}
-.project-link:hover {
-  color: var(--accent);
-}
-
-/* ============================================================
-   Resume page
-   ============================================================ */
-
-.resume {
-  max-width: 1080px;
-  margin: 0 auto;
-}
-
-.resume-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 32px;
-  flex-wrap: wrap;
-}
-.resume-header-text {
-  flex: 1 1 320px;
-}
-.resume-header-text .section-label {
-  display: block;
-  margin-bottom: 12px;
-}
-
-.resume-name {
-  font-family: var(--display);
-  font-size: clamp(36px, 5vw, 56px);
-  font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-  margin-bottom: 8px;
-}
-.resume-title {
-  font-family: var(--mono);
-  font-size: 13px;
-  color: var(--accent);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  margin-bottom: 4px;
-}
-.resume-meta {
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--text-muted);
-  letter-spacing: 0.04em;
-  margin-bottom: 20px;
-}
-.resume-contact {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-.resume-contact a {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--text-muted);
-  text-decoration: none;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  transition: color 0.2s;
-}
-.resume-contact a:hover {
-  color: var(--accent);
-}
-
-.resume-actions {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 8px;
-}
-.resume-note {
-  font-family: var(--mono);
-  font-size: 10px;
-  color: var(--text-muted);
-  letter-spacing: 0.06em;
-}
 
 .resume-section {
   padding-top: 48px;
@@ -1504,9 +942,7 @@ footer {
   color: var(--accent);
 }
 
-/* Two-column layout for paired sections (e.g. Open source + Certs).
-   Each cell holds its own section-label so each column reads as its
-   own mini-section. Collapses to one column under 700px. */
+/* Two-column layout for paired sections (e.g. Open source + Certs). */
 .resume-two-col {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1517,7 +953,7 @@ footer {
   display: block;
   margin-bottom: 20px;
 }
-.resume-projects-more {
+.resume-projects + p {
   margin-top: 16px;
   font-size: 13px;
 }
@@ -1528,7 +964,164 @@ footer {
   }
 }
 
-/* Blog post tag chips shown above the post body. */
+/* ============================================================
+   Contact form (used on /about)
+   ============================================================ */
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 560px;
+  margin-top: 24px;
+}
+
+.contact-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.contact-field label {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.contact-field input,
+.contact-field textarea {
+  font-family: var(--body);
+  font-size: 14px;
+  color: var(--text);
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 10px 12px;
+  width: 100%;
+  transition: border-color 0.2s, background 0.2s;
+}
+.contact-field textarea {
+  resize: vertical;
+  min-height: 120px;
+  font-family: var(--body);
+}
+.contact-field input:focus,
+.contact-field textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--bg3);
+}
+.contact-field input:disabled,
+.contact-field textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Off-screen honeypot field — bots fill it, real users don't see it. */
+.contact-honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.contact-submit-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.contact-submit-row .btn-primary[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.contact-submit-row .btn-primary[disabled]:hover {
+  transform: none;
+  background: var(--accent);
+  box-shadow: none;
+}
+.contact-disabled-note {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+/* All non-hero About sections match .resume-section visual treatment. */
+.about-section,
+.about .resume-section {
+  padding-top: 48px;
+  padding-bottom: 48px;
+  border-top: 1px solid var(--border);
+}
+.about-section .section-label,
+.about .resume-section > .section-label {
+  display: block;
+  margin-bottom: 20px;
+}
+
+/* Bullet list used inside .prose on /about (Life outside tech). */
+.about-bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+}
+.about-bullets li {
+  color: var(--text-dim);
+  line-height: 1.6;
+  padding-left: 16px;
+  border-left: 1px solid var(--border);
+}
+.about-bullets em {
+  color: var(--text);
+  font-style: italic;
+}
+
+/* ============================================================
+   Blog post layout
+   ============================================================ */
+
+.blog-post {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 48px 48px 96px;
+}
+
+/* ── Header ── */
+.blog-post-header {
+  margin-bottom: 32px;
+}
+.blog-post-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.blog-post-meta time {
+  color: var(--text-muted);
+}
+.blog-post-meta-sep {
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+.blog-post-header h1 {
+  font-family: var(--display);
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
 .blog-post-tags {
   display: flex;
   flex-wrap: wrap;
@@ -1536,14 +1129,110 @@ footer {
   margin-bottom: 32px;
 }
 
+/* ── Body typography ── */
+.blog-post-body h2 {
+  font-family: var(--display);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 48px 0 16px;
+}
+.blog-post-body h3 {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 600;
+  margin: 32px 0 12px;
+}
+.blog-post-body p {
+  margin-bottom: 18px;
+  color: var(--text);
+  line-height: 1.7;
+}
+.blog-post-body a {
+  color: var(--accent2);
+  text-decoration: underline;
+  text-decoration-color: var(--accent2-line);
+  text-underline-offset: 2px;
+}
+.blog-post-body a:hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
+}
+.blog-post-body ul,
+.blog-post-body ol {
+  margin: 0 0 18px 24px;
+}
+.blog-post-body li {
+  margin-bottom: 6px;
+}
+.blog-post-body code {
+  font-family: var(--mono);
+  font-size: 13px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 1px 6px;
+  border-radius: 2px;
+}
+.blog-post-body pre {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 16px;
+  border-radius: 2px;
+  overflow-x: auto;
+  margin-bottom: 18px;
+}
+.blog-post-body pre code {
+  background: none;
+  border: none;
+  padding: 0;
+}
+.blog-post-body blockquote {
+  border-left: 2px solid var(--accent);
+  padding-left: 16px;
+  color: var(--text-dim);
+  margin: 18px 0;
+}
+
+/* ── Images ──
+   `display: block` forces the image to its own line even when the
+   markdown puts an italic caption immediately after (![alt](src)\n_caption_),
+   and the caption selector below renders that em as a centered caption. */
+.blog-post-body img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 32px auto 8px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+.blog-post-body p img + em {
+  display: block;
+  text-align: center;
+  font-style: italic;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0 auto 32px;
+  max-width: 80%;
+}
+
+/* ── Hero image ──
+   First image in the post body. Behavior controlled by frontmatter
+   `heroFit` (default "cover"): cover crops to a fixed 320px frame,
+   contain keeps natural aspect (max-height 360px). */
+.blog-post-body[data-hero-fit="cover"] > p:first-child img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  margin-top: 0;
+}
+.blog-post-body[data-hero-fit="contain"] > p:first-child img {
+  margin-top: 0;
+  max-height: 360px;
+  width: auto;
+}
+
 /* ============================================================
    Post nav (Previous / Next at bottom of each blog post)
-   ------------------------------------------------------------
-   Rendered as a sibling of <article>, not a child — so nothing
-   inside the article context can affect its position. Sphinx-
-   style two-cell layout: chevron + Previous label + title on
-   the left, Next label + title + chevron on the right. Width
-   matches the article column (760px max).
    ============================================================ */
 .postnav {
   position: static;
@@ -1612,6 +1301,7 @@ footer {
   transition: color 0.2s;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -1638,6 +1328,202 @@ footer {
   }
 }
 
+/* ============================================================
+   Message pages (404, /thanks, etc.)
+   ------------------------------------------------------------
+   Shared layout for short standalone pages: a small mono eyebrow,
+   a big display title, optional subtitle, body copy, then a row
+   of buttons that get the visitor back to a real page.
+   ============================================================ */
+
+.message-page {
+  min-height: calc(100vh - 200px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 120px 48px 96px;
+  max-width: 880px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.message-eyebrow {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.message-eyebrow::before {
+  content: "";
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.message-title {
+  font-family: var(--display);
+  font-size: clamp(40px, 7vw, 88px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  margin-bottom: 20px;
+}
+
+/* Stroked outline treatment — reuses the hero name's look. */
+.message-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--outline-stroke);
+}
+
+.message-subtitle {
+  font-family: var(--display);
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 20px;
+  letter-spacing: -0.01em;
+}
+
+.message-body {
+  font-size: 16px;
+  color: var(--text-dim);
+  line-height: 1.6;
+  max-width: 540px;
+  margin-bottom: 40px;
+}
+
+.message-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .message-page {
+    padding: 96px 20px 64px;
+  }
+  .message-actions .btn-primary,
+  .message-actions .btn-ghost {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 32px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.footer-left {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+.footer-left span {
+  color: var(--accent);
+}
+.footer-links {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.footer-links a {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+.footer-links a:hover {
+  color: var(--accent);
+}
+
+.footer-socials {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.footer-socials a {
+  color: var(--text-muted);
+  font-size: 18px;
+  text-decoration: none;
+  transition:
+    color 0.2s,
+    transform 0.15s;
+  display: flex;
+  align-items: center;
+}
+.footer-socials a:hover {
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
+/* ============================================================
+   Animations
+   ============================================================ */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeLeft {
+  from {
+    opacity: 0;
+    transform: translate(20px, -50%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
+}
+
+/* ============================================================
+   Scrollbar
+   ============================================================ */
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg3);
+  border-radius: 2px;
+}
 
 /* ============================================================
    Responsive
@@ -1662,28 +1548,12 @@ footer {
     gap: 32px;
   }
 
-  .resume-header {
-    flex-direction: column;
-  }
-  .resume-actions {
-    align-items: flex-start;
-  }
-
   .resume-skills {
     grid-template-columns: 1fr;
   }
 
   .hero {
     padding: 120px 24px 64px;
-  }
-
-  .hero-badge {
-    position: static;
-    transform: none;
-    flex-direction: row;
-    flex-wrap: wrap;
-    margin-top: 40px;
-    animation: fadeUp 0.8s 0.5s ease both;
   }
 
   .stats-strip {

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ContactForm from '../../components/ContactForm.astro';
+import Section from '../../components/Section.astro';
 ---
 
 <BaseLayout
@@ -8,7 +9,6 @@ import ContactForm from '../../components/ContactForm.astro';
   description="MacAdmin and Client Platform Engineer based in Boston, MA. The story behind Liquid Zoo — plus a working resume."
 >
   <main class="page about">
-    <!-- ── Hero / intro ── -->
     <section class="section about-hero">
       <div class="section-header">
         <span class="section-label">// About</span>
@@ -20,7 +20,7 @@ import ContactForm from '../../components/ContactForm.astro';
         alt=""
         loading="eager"
       />
-      
+
       <div class="prose">
         <p>
           All my friends and family call me <strong>Spesh</strong>.
@@ -30,7 +30,7 @@ import ContactForm from '../../components/ContactForm.astro';
           tools for the MacAdmin community.
         </p>
       </div>
-      
+
       <aside class="callout">
         <span class="callout-label">A note on names</span>
         <p>
@@ -42,10 +42,8 @@ import ContactForm from '../../components/ContactForm.astro';
         </p>
       </aside>
     </section>
-    
-    <!-- ── Why "Liquid Zoo"? ── -->
-    <section class="section about-section">
-      <span class="section-label">// Why "Liquid Zoo"?</span>
+
+    <Section label='// Why "Liquid Zoo"?' class="about-section">
       <div class="prose">
         <p>
           The name is a personal nod to a fond memory of mine — visiting the
@@ -61,11 +59,9 @@ import ContactForm from '../../components/ContactForm.astro';
           of passions all living under one roof.
         </p>
       </div>
-    </section>
+    </Section>
 
-    <!-- ── Life outside tech ── -->
-    <section class="section about-section">
-      <span class="section-label">// Life outside tech</span>
+    <Section label="// Life outside tech" class="about-section">
       <div class="prose">
         <p>When I'm not coding or managing Mac fleets, you can likely find me:</p>
         <ul class="about-bullets">
@@ -79,11 +75,9 @@ import ContactForm from '../../components/ContactForm.astro';
           <li>🎧 Producing music or listening to podcasts</li>
         </ul>
       </div>
-    </section>
+    </Section>
 
-    <!-- ── Daily tools ── -->
-    <section class="section about-section">
-      <span class="section-label">// Daily tools</span>
+    <Section label="// Daily tools" class="about-section">
       <div class="prose">
         <p>
           The apps and utilities I lean on regularly — from development to
@@ -200,11 +194,9 @@ import ContactForm from '../../components/ContactForm.astro';
           </ul>
         </div>
       </div>
-    </section>
+    </Section>
 
-    <!-- ── Experience (pared, redacted employer names) ── -->
-    <section class="section resume-section">
-      <span class="section-label">// Experience</span>
+    <Section label="// Experience" class="resume-section">
       <div class="resume-roles">
         <article class="resume-role">
           <header class="resume-role-head">
@@ -257,11 +249,9 @@ import ContactForm from '../../components/ContactForm.astro';
           </ul>
         </article>
       </div>
-    </section>
+    </Section>
 
-    <!-- ── Technical skills (from resume) ── -->
-    <section class="section resume-section">
-      <span class="section-label">// Technical skills</span>
+    <Section label="// Technical skills" class="resume-section">
       <div class="resume-skills">
         <div class="resume-skill-group">
           <h4>Apple Ecosystem</h4>
@@ -288,12 +278,12 @@ import ContactForm from '../../components/ContactForm.astro';
           <p>Okta, Microsoft Entra ID, Google Workspace, ConductorOne, SailPoint</p>
         </div>
       </div>
-    </section>
+    </Section>
 
-    <!-- ── Open source + Certifications (two-column) ── -->
     <section class="section resume-section resume-two-col">
       <div class="resume-two-col-cell">
         <span class="section-label">// Open source</span>
+        <h2 class="sr-only">Open source</h2>
         <ul class="resume-projects">
           <li>
             <strong>Patcher</strong> — Patch reporting for Jamf-managed fleets ·
@@ -311,13 +301,12 @@ import ContactForm from '../../components/ContactForm.astro';
             <a href="https://pymdm.readthedocs.io" target="_blank" rel="noopener">Docs</a>
           </li>
         </ul>
-        <p class="prose resume-projects-more">
-          More on the <a href="/projects/">projects page</a>.
-        </p>
+        <p>More on the <a href="/projects/">projects page</a>.</p>
       </div>
 
       <div class="resume-two-col-cell">
         <span class="section-label">// Certifications</span>
+        <h2 class="sr-only">Certifications</h2>
         <div class="cert-grid">
           <div class="cert-tag">Jamf 400 · Certified Expert</div>
           <div class="cert-tag">Jamf 370 · Endpoint Security Admin</div>
@@ -329,9 +318,7 @@ import ContactForm from '../../components/ContactForm.astro';
       </div>
     </section>
 
-    <!-- ── Get in touch ── -->
-    <section class="section about-section">
-      <span class="section-label">// Get in touch</span>
+    <Section label="// Get in touch" class="about-section">
       <div class="prose">
         <p>
           The fastest way to reach me is a DM on the
@@ -351,6 +338,6 @@ import ContactForm from '../../components/ContactForm.astro';
       </div>
 
       <ContactForm />
-    </section>
+    </Section>
   </main>
 </BaseLayout>

@@ -1,5 +1,6 @@
 ---
 import ProjectCard from './ProjectCard.astro';
+import Section from './Section.astro';
 
 interface Props {
   showHeader?: boolean;
@@ -39,16 +40,14 @@ const projects = [
     docsHref: 'https://pymdm.readthedocs.io',
   },
 ];
+
+const Wrapper = showHeader ? Section : 'section';
+const wrapperProps = showHeader
+  ? { label: headerLabel, title: headerTitle }
+  : { class: 'section' };
 ---
 
-<section class="section">
-  {showHeader && (
-    <div class="section-header">
-      <span class="section-label">{headerLabel}</span>
-      <h2 class="section-title">{headerTitle}</h2>
-    </div>
-  )}
-
+<Wrapper {...wrapperProps}>
   <div class="projects-grid">
     {projects.map((project) => (
       <ProjectCard
@@ -61,4 +60,4 @@ const projects = [
       />
     ))}
   </div>
-</section>
+</Wrapper>

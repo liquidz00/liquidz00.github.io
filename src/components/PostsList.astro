@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import Section from './Section.astro';
 
 interface Props {
   limit?: number;
@@ -19,16 +20,14 @@ const all = (await getCollection('blog')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
 const posts = limit ? all.slice(0, limit) : all;
+
+const Wrapper = showHeader ? Section : 'section';
+const wrapperProps = showHeader
+  ? { label: headerLabel, title: headerTitle }
+  : { class: 'section' };
 ---
 
-<section class="section">
-  {showHeader && (
-    <div class="section-header">
-      <span class="section-label">{headerLabel}</span>
-      <h2 class="section-title">{headerTitle}</h2>
-    </div>
-  )}
-
+<Wrapper {...wrapperProps}>
   <div class="posts-list">
     {posts.map((post) => {
       const firstTag = post.data.tags?.[0];
@@ -45,4 +44,4 @@ const posts = limit ? all.slice(0, limit) : all;
       );
     })}
   </div>
-</section>
+</Wrapper>
