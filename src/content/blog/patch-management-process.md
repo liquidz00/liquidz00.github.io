@@ -7,11 +7,10 @@ tags:
   - Jamf
   - Patch Management
 ---
-<!-- markdownlint-capture -->
-<!-- markdownlint-disable -->
 
-> **Note** <br>This was originally written as an SOP article for internal use at my organization. However, the base principles can be applied in any environment using Jamf Pro as an MDM. 
-
+:::note
+This was originally written as an SOP article for internal use at my organization. However, the base principles can be applied in any environment using Jamf Pro as an MDM.
+:::
 
 ## Configure Software Title
 
@@ -32,8 +31,9 @@ Configuring software titles in Jamf is not *required* in order to Patch applicat
 
 ## Create Smart Groups
 
-> The naming scheme of your Smart Groups does not matter, but it is a good idea to remain consistent. <br>As an example, we prefix our Smart Groups with `Has -` for hosts that have a certain application installed, and `Latest Version -` for hosts on the latest version of the application. Choose what makes the most sense for you.
-
+:::tip
+The naming scheme of your Smart Groups does not matter, but it is a good idea to remain consistent. As an example, we prefix our Smart Groups with `Has -` for hosts that have a certain application installed, and `Latest Version -` for hosts on the latest version of the application. Choose what makes the most sense for you.
+:::
 
 1. If not already logged into Jamf Pro, login and navigate to the **Computers** tab. 
 2. Click the **Smart Computer Groups** tab in the sidebar. 
@@ -55,7 +55,9 @@ Configuring software titles in Jamf is not *required* in order to Patch applicat
     _"Has" Smart Group criteria_
     
 8. Click **Save** in the bottom right hand corner to save the first Smart Group. 
-    > **Important** <br> After saving, it is important to verify the criteria is working as expected. Click the **View** button in the bottom right hand corner to see a list of computers matching the criteria. If no computers are found, it could indicate an issue with the smart group criteria. 
+    :::important
+    After saving, it is important to verify the criteria is working as expected. Click the **View** button in the bottom right hand corner to see a list of computers matching the criteria. If no computers are found, it could indicate an issue with the smart group criteria.
+    :::
     
 9.  Click the **Smart Computer Groups** tab in the sidebar again, and click **New** to create the second Smart Group. 
 10. Using the naming scheme you have chosen, name your latest version Smart Group. 
@@ -84,7 +86,6 @@ Configuring software titles in Jamf is not *required* in order to Patch applicat
 
 > We rely on Installomator by default to automate our patch management process. If Installomator is not approved for use in your organization, alternate methods can be leveraged, such as [Composer](https://learn.jamf.com/en-US/bundle/composer-user-guide-current/page/Package_Source_Creation.html), [Jamf App Installers](https://learn.jamf.com/en-US/bundle/jamf-pro-documentation-current/page/App_Installers.html) or [AutoPKG](https://github.com/autopkg/autopkg).
 
-
 1. Navigate to the **Labels.txt** file on the [Installomator GitHub repository](https://learn.jamf.com/bundle/jamf-pro-documentation-10.38.0/page/Smart_Groups.html).
 2. Press `CMD + F` (⌘F) on your keyboard to find the software title in question in the list. 
     - Installomator’s labels are all lowercase and all one-word. Keep this in mind when searching for your software title. 
@@ -93,7 +94,6 @@ Configuring software titles in Jamf is not *required* in order to Patch applicat
 ## Create Policy
 
 > The *Category*, *Trigger*, and *Execution Frequency* referenced in step 4 are how we configure our patch policies but can be changed to meet the requirements of your environment.
-
 
 1. Back in Jamf Pro, click **Policies** under the **Computers** section. 
 2. Click **New** in the upper right hand corner to create a new policy. 
@@ -115,7 +115,9 @@ Configuring software titles in Jamf is not *required* in order to Patch applicat
     
     ![Update Inventory](/assets/posts/patch-management-process/update-inventory.png)
     
-    > **Important** <br> Updating Inventory for patching purposes is necessary so Jamf can automatically put computers in the proper Smart Groups created previously. 
+    :::important
+    Updating Inventory for patching purposes is necessary so Jamf can automatically put computers in the proper Smart Groups created previously.
+    :::
     
 
 13. Click the **Scope** tab near the top of the screen and configure the following properties: 

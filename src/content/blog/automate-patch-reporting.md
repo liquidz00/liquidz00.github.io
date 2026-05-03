@@ -3,17 +3,17 @@ title: Automated Patch Reporting with Patcher
 date: 2024-10-17
 author: spesh
 description: How Patcher automates Mac patch reporting against the Jamf Pro API — and why I open-sourced it.
+heroFit: contain
 tags:
   - Patcher
   - Automation
 ---
-<!-- markdownlint-capture -->
-<!-- markdownlint-disable -->
 
 ![Patcher Banner](/assets/posts/automate-patch-reporting/PatcherBanner.png)
 
-> **Note** <br> A condensed version of this article was published on Jamf's [Tech Thoughts](https://community.jamf.com/t5/tech-thoughts/automate-patch-reporting/ba-p/331814) blog in November of 2024. The version below has since been updated with recent changes made to Patcher. 
-
+:::note
+A condensed version of this article was published on Jamf's [Tech Thoughts](https://community.jamf.com/t5/tech-thoughts/automate-patch-reporting/ba-p/331814) blog in November of 2024. The version below has since been updated with recent changes made to Patcher.
+:::
 
 Recently, the Compliance and Security Operations departments at my organization asked if they could get some visibility into how macOS Applications are patched on a regular basis. Specifically, they were hoping I would be able to provide them with an Excel spreadsheet containing the applications we deploy via Jamf and how many of those applications were on the latest version. 
 
@@ -25,7 +25,7 @@ Manually entering patch management data into varying formats to send to differen
 
 Patcher leverages the Jamf Pro API to automate the generation of comprehensive patch management reports, transforming data into actionable insights. Patcher was intentionally designed as Command Line Interface (CLI) so it could be integrated easily with LaunchAgents running on a schedule. With a one-line command, Patcher can export patch reports in Excel, PDF, and HTML formats from your Jamf Pro instance. Assuming your organization is named *AnyOrg*, a PDF report could look like the following:
 
-![Example PDF](https://patcher.liquidzoo.io/_images/example_pdf.png)
+![Example PDF](https://patcher.readthedocs.io/en/latest/_images/example_pdf.png)
 _Example PDF for AnyOrg_
 
 When developing Patcher as an open-sourced MacAdmin tool, we (Chris and myself) sought a solution that would not only save time but also enhance the accuracy and presentation of the data. It does not matter if you're a seasoned admin or a newcomer seeking efficiency in your workflow, we wanted to make Patcher as simplified and user-friendly as possible. This includes helping end-users setting up the tool for continued success.
@@ -53,8 +53,9 @@ With the prerequisites out of the way, the setup assistant will launch and inqui
 
 ## Examples and Usage
 
-> **Important** <br> The project is called Patcher, but the executable is `patcherctl`. Why? The name *patcher* was already taken on the Python package index. 
-
+:::important
+The project is called Patcher, but the executable is `patcherctl`. Why? The name *patcher* was already taken on the Python package index.
+:::
 
 To see all commands and their corresponding options, visit the [Usage page](https://patcher.liquidzoo.io/user/usage.html) of Patcher’s documentation. Alternatively, execute the command `patcherctl --help`. For the sake of this article, we are going to focus on generating reports using the `export` command without any additional options. All that needs to be provided is the path where you would like the reports to be saved. For example, if I wanted to save the reports to my Desktop folder, I would run the following command: 
 

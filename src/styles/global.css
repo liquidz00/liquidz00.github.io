@@ -29,6 +29,13 @@
   --outline-stroke: rgba(232, 125, 63, 0.45);
   --grid-line: rgba(255, 255, 255, 0.022);
 
+  /* Callout type accents */
+  --callout-note: #4f9cf9;       /* blue — matches accent2 */
+  --callout-tip: #5fb37e;        /* muted green */
+  --callout-important: #a78bda;  /* soft violet */
+  --callout-warning: #e87d3f;    /* matches accent — warning vibe */
+  --callout-caution: #d96b6b;    /* muted red */
+
   --mono: "DM Mono", monospace;
   --display: "Syne", sans-serif;
   --body: "DM Sans", sans-serif;
@@ -54,6 +61,12 @@
   --nav-bg: rgba(247, 245, 242, 0.88);
   --outline-stroke: rgba(201, 101, 32, 0.35);
   --grid-line: rgba(0, 0, 0, 0.04);
+
+  --callout-note: #2563c4;
+  --callout-tip: #2e8a52;
+  --callout-important: #7757b8;
+  --callout-warning: #c96520;
+  --callout-caution: #b54a4a;
 }
 
 /* ============================================================
@@ -721,36 +734,94 @@ nav {
   display: block;
 }
 
-/* Callout — used for the name discrepancy note. Lives between the
-   hero intro and the main content, visually distinct but quiet. */
-.callout {
-  margin-top: 28px;
+/* Callouts. ONE configuration used everywhere:
+     - <aside class="callout"> on /about (name discrepancy)
+     - <aside class="callout callout-{type}"> from `:::note` directives in posts
+     - <blockquote> from a plain `>` blockquote in posts
+   Type variants only override the left-border color and label color. */
+.callout,
+.blog-post-body blockquote {
   background: var(--bg2);
   border: 1px solid var(--border);
   border-left: 2px solid var(--accent2);
-  padding: 18px 22px;
-}
-.callout-label {
-  display: block;
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--accent2);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-.callout p {
-  font-size: 14px;
+  padding: 12px 18px 10px;
   color: var(--text-dim);
-  line-height: 1.6;
+  line-height: 1.5;
 }
-.callout strong {
+.about-hero .callout {
+  margin-top: 28px;
+}
+.blog-post-body .callout,
+.blog-post-body blockquote {
+  margin: 20px 0;
+}
+/* Body paragraphs. The :not(.callout-label) exclusion is critical:
+   typed-callout labels render as <p class="callout-label">, and without
+   the exclusion this rule's higher specificity (.callout p) overrides
+   the .callout-label rule and the label inherits 14px body styling. */
+.callout p:not(.callout-label),
+.blog-post-body blockquote p {
+  font-size: 14px;
+  margin: 0;
+}
+.callout p:not(.callout-label) + p:not(.callout-label),
+.blog-post-body blockquote p + p {
+  margin-top: 10px;
+}
+.callout strong,
+.blog-post-body blockquote strong {
   color: var(--text);
   font-weight: 500;
 }
-.callout em {
+.callout em,
+.blog-post-body blockquote em {
   color: var(--text);
   font-style: italic;
+}
+
+/* Label row */
+.callout-label {
+  display: block;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent2);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+/* Type variants — each picks a left-border + label color from
+   the --callout-* tokens in :root. */
+.callout-note {
+  border-left-color: var(--callout-note);
+}
+.callout-note .callout-label {
+  color: var(--callout-note);
+}
+.callout-tip {
+  border-left-color: var(--callout-tip);
+}
+.callout-tip .callout-label {
+  color: var(--callout-tip);
+}
+.callout-important {
+  border-left-color: var(--callout-important);
+}
+.callout-important .callout-label {
+  color: var(--callout-important);
+}
+.callout-warning {
+  border-left-color: var(--callout-warning);
+}
+.callout-warning .callout-label {
+  color: var(--callout-warning);
+}
+.callout-caution {
+  border-left-color: var(--callout-caution);
+}
+.callout-caution .callout-label {
+  color: var(--callout-caution);
 }
 
 /* ============================================================
@@ -1085,34 +1156,91 @@ nav {
    Blog post layout
    ============================================================ */
 
+/* Blog page grid — three columns: a flexible left gutter, the article
+   column (max 760px), and a flexible right column where the TOC sticks.
+   This keeps the article centered on the viewport regardless of TOC.
+   Below 1200px the TOC is hidden and the article takes full width. */
+.blog-layout {
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 760px) 1fr;
+  gap: 32px;
+  padding: 0 48px;
+  align-items: start;
+}
+.blog-main {
+  grid-column: 2;
+  min-width: 0;
+}
+
 .blog-post {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 48px 48px 96px;
+  padding: 48px 0 64px;
+}
+
+.blog-toc {
+  grid-column: 3;
+  justify-self: start;
+  width: 100%;
+  max-width: 220px;
+  position: sticky;
+  top: 100px;
+  padding: 48px 0 0;
+  font-family: var(--mono);
+  font-size: 12px;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+}
+.blog-toc-label {
+  color: var(--accent);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 11px;
+  margin-bottom: 14px;
+}
+.blog-toc ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-left: 1px solid var(--border);
+}
+.blog-toc-item {
+  margin: 0;
+}
+.blog-toc-item a {
+  display: block;
+  padding: 6px 12px;
+  color: var(--text-muted);
+  text-decoration: none;
+  line-height: 1.4;
+  border-left: 1px solid transparent;
+  margin-left: -1px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.blog-toc-item a:hover {
+  color: var(--accent);
+  border-left-color: var(--accent);
+}
+.blog-toc-h3 a {
+  padding-left: 24px;
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+@media (max-width: 1200px) {
+  .blog-layout {
+    grid-template-columns: minmax(0, 760px);
+    justify-content: center;
+  }
+  .blog-main {
+    grid-column: 1;
+  }
+  .blog-toc {
+    display: none;
+  }
 }
 
 /* ── Header ── */
 .blog-post-header {
-  margin-bottom: 32px;
-}
-.blog-post-meta {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--text-muted);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-}
-.blog-post-meta time {
-  color: var(--text-muted);
-}
-.blog-post-meta-sep {
-  color: var(--text-muted);
-  opacity: 0.6;
+  margin-bottom: 40px;
 }
 .blog-post-header h1 {
   font-family: var(--display);
@@ -1122,11 +1250,24 @@ nav {
   letter-spacing: -0.02em;
   margin-bottom: 16px;
 }
-.blog-post-tags {
+.blog-post-meta {
   display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.blog-post-meta > span[aria-hidden] {
+  opacity: 0.5;
+}
+.blog-post-meta-tags {
+  display: inline-flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-bottom: 32px;
 }
 
 /* ── Body typography ── */
@@ -1186,11 +1327,38 @@ nav {
   border: none;
   padding: 0;
 }
-.blog-post-body blockquote {
-  border-left: 2px solid var(--accent);
-  padding-left: 16px;
-  color: var(--text-dim);
-  margin: 18px 0;
+
+/* ── Tables ── */
+.blog-post-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0;
+  font-size: 14px;
+}
+.blog-post-body th,
+.blog-post-body td {
+  text-align: left;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  vertical-align: top;
+}
+.blog-post-body th {
+  background: var(--bg2);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text);
+  font-weight: 500;
+}
+.blog-post-body tbody tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.015);
+}
+[data-theme="light"] .blog-post-body tbody tr:nth-child(even) td {
+  background: rgba(0, 0, 0, 0.02);
+}
+.blog-post-body td code {
+  font-size: 12px;
 }
 
 /* ── Images ──
@@ -1236,9 +1404,7 @@ nav {
    ============================================================ */
 .postnav {
   position: static;
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 32px 48px 80px;
+  padding: 32px 0 80px;
   border-top: 1px solid var(--border);
   display: flex;
   justify-content: space-between;
@@ -1568,8 +1734,14 @@ footer {
     padding: 64px 24px;
   }
 
+  .blog-layout {
+    padding: 0 24px;
+  }
   .blog-post {
-    padding: 32px 24px 72px;
+    padding: 32px 0 56px;
+  }
+  .postnav {
+    padding: 24px 0 64px;
   }
 
   .projects-grid {
@@ -1642,10 +1814,15 @@ footer {
     font-size: 26px;
   }
 
-  .blog-post {
-    padding: 24px 20px 64px;
+  .blog-layout {
+    padding: 0 20px;
   }
-
+  .blog-post {
+    padding: 24px 0 48px;
+  }
+  .postnav {
+    padding: 24px 0 48px;
+  }
 
   .resume-role-head {
     flex-direction: column;

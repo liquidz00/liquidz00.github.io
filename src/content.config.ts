@@ -18,6 +18,8 @@ const blog = defineCollection({
     //   "cover"   → fixed 320px height, image cropped to fill (default)
     //   "contain" → natural aspect ratio, no fixed height
     heroFit: z.enum(['cover', 'contain']).optional(),
+    // Hide the right-side TOC for this post (default: shown).
+    showToc: z.boolean().optional(),
   }),
 });
 

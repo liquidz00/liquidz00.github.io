@@ -12,7 +12,9 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^6.2.1"
+    "astro": "^6.2.1",
+    "remark-directive": "^4.0.0",
+    "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
     "prettier": "^3.8.3",

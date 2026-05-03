@@ -8,8 +8,6 @@ tags:
   - Packaging
 heroFit: contain
 ---
-<!-- markdownlint-capture -->
-<!-- markdownlint-disable -->
 
 This article outlines manually creating `.pkg` files using the Composer application from Jamf.
 

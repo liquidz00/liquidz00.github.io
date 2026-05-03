@@ -8,9 +8,6 @@ tags:
   - Methodology
 heroFit: contain
 ---
-<!-- markdownlint-capture -->
-<!-- markdownlint-disable -->
-
 
 ![charles-profile-picture](/assets/posts/edge-methodology/charles-edge-profile-pic.png)
 _Charles Edge (@krypted) profile picture_

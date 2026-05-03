@@ -1,7 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 
-const { post, prev, next } = Astro.props;
+const { post, prev, next, headings = [] } = Astro.props;
 const description =
   post.data.description ??
   `${post.data.title} — writing by Andrew Speciale (spesh).`;
@@ -13,64 +13,92 @@ const formatDate = (d: Date) =>
     day: 'numeric',
     year: 'numeric',
   });
+
+// TOC: only h2 + h3 — h1 is the title, h4+ is too noisy.
+// Frontmatter `showToc: false` opts a post out of the sidebar.
+const showToc = post.data.showToc !== false;
+const toc = showToc
+  ? headings.filter(
+      (h: { depth: number }) => h.depth === 2 || h.depth === 3,
+    )
+  : [];
 ---
 
 <BaseLayout title={`${post.data.title} | Liquid Zoo`} description={description}>
-  <main class="page">
-    <article class="blog-post" id="top">
-      <header class="blog-post-header">
-        <div class="blog-post-meta">
-          <time datetime={post.data.date.toISOString()}>
-            {formatDate(post.data.date)}
-          </time>
-          {post.data.updated && (
-            <>
-              <span class="blog-post-meta-sep" aria-hidden="true">·</span>
-              <time datetime={post.data.updated.toISOString()}>
-                Updated {formatDate(post.data.updated)}
+  <main class="page blog-page">
+    <div class="blog-layout">
+      <div class="blog-main">
+        <article class="blog-post" id="top">
+          <header class="blog-post-header">
+            <h1>{post.data.title}</h1>
+
+            <div class="blog-post-meta">
+              <time datetime={post.data.date.toISOString()}>
+                {formatDate(post.data.date)}
               </time>
-            </>
-          )}
-        </div>
+              {post.data.updated && (
+                <>
+                  <span aria-hidden="true">·</span>
+                  <time datetime={post.data.updated.toISOString()}>
+                    Updated {formatDate(post.data.updated)}
+                  </time>
+                </>
+              )}
+              {post.data.tags && post.data.tags.length > 0 && (
+                <>
+                  <span aria-hidden="true">·</span>
+                  <span class="blog-post-meta-tags">
+                    {post.data.tags.map((t: string) => (
+                      <span class="post-tag">{t}</span>
+                    ))}
+                  </span>
+                </>
+              )}
+            </div>
+          </header>
 
-        <h1>{post.data.title}</h1>
-
-        {post.data.tags && post.data.tags.length > 0 && (
-          <div class="blog-post-tags">
-            {post.data.tags.map((t: string) => (
-              <span class="post-tag">{t}</span>
-            ))}
+          <div class="blog-post-body" data-hero-fit={heroFit}>
+            <slot />
           </div>
+        </article>
+
+        {(prev || next) && (
+          <nav class="postnav" aria-label="Post navigation">
+            {prev ? (
+              <a class="postnav-link postnav-prev" href={`/blog/${prev.id}/`}>
+                <span class="postnav-chevron" aria-hidden="true">‹</span>
+                <span class="postnav-text">
+                  <span class="postnav-label">Previous</span>
+                  <span class="postnav-title">{prev.data.title}</span>
+                </span>
+              </a>
+            ) : <span class="postnav-spacer"></span>}
+
+            {next ? (
+              <a class="postnav-link postnav-next" href={`/blog/${next.id}/`}>
+                <span class="postnav-text">
+                  <span class="postnav-label">Next</span>
+                  <span class="postnav-title">{next.data.title}</span>
+                </span>
+                <span class="postnav-chevron" aria-hidden="true">›</span>
+              </a>
+            ) : <span class="postnav-spacer"></span>}
+          </nav>
         )}
-      </header>
-
-      <div class="blog-post-body" data-hero-fit={heroFit}>
-        <slot />
       </div>
-    </article>
 
-    {(prev || next) && (
-      <nav class="postnav" aria-label="Post navigation">
-        {prev ? (
-          <a class="postnav-link postnav-prev" href={`/blog/${prev.id}/`}>
-            <span class="postnav-chevron" aria-hidden="true">‹</span>
-            <span class="postnav-text">
-              <span class="postnav-label">Previous</span>
-              <span class="postnav-title">{prev.data.title}</span>
-            </span>
-          </a>
-        ) : <span class="postnav-spacer"></span>}
-
-        {next ? (
-          <a class="postnav-link postnav-next" href={`/blog/${next.id}/`}>
-            <span class="postnav-text">
-              <span class="postnav-label">Next</span>
-              <span class="postnav-title">{next.data.title}</span>
-            </span>
-            <span class="postnav-chevron" aria-hidden="true">›</span>
-          </a>
-        ) : <span class="postnav-spacer"></span>}
-      </nav>
-    )}
+      {toc.length > 0 && (
+        <aside class="blog-toc" aria-label="On this page">
+          <p class="blog-toc-label">// On this page</p>
+          <ol>
+            {toc.map((h: { slug: string; text: string; depth: number }) => (
+              <li class:list={['blog-toc-item', `blog-toc-h${h.depth}`]}>
+                <a href={`#${h.slug}`}>{h.text}</a>
+              </li>
+            ))}
+          </ol>
+        </aside>
+      )}
+    </div>
   </main>
 </BaseLayout>
