@@ -13,11 +13,39 @@ import Section from '../../components/Section.astro';
       class="page-intro"
     >
       <p class="prose">
-        Tools I build and maintain for the MacAdmin community. Each project
-        ships with documentation on Read the Docs and source on GitHub.
+        A snapshot of what I build, maintain, and lean on every day. The list
+        skews toward MacAdmin tooling, Jamf integrations, and Python — that's
+        where I spend most of my open-source time.
       </p>
     </Section>
 
-    <ProjectsGrid showHeader={false} />
+    <Section label="// Authored" title="Projects I've built">
+      <ProjectsGrid category="authored" />
+    </Section>
+
+    <Section label="// Maintain & contribute" title="Community open source">
+      <ProjectsGrid category="contribute" />
+    </Section>
+
+    <Section label="// Daily drivers" title="Tools I lean on">
+      <p class="prose">
+        Foundational MacAdmin tools that show up in my day-to-day work — not
+        my code, but my workflow wouldn't function without them.
+      </p>
+      <ul class="daily-drivers">
+        <li>
+          <a href="https://github.com/Installomator/Installomator" target="_blank" rel="noopener">
+            <strong>Installomator</strong>
+          </a>
+          — install the latest version of Mac apps from their original developer with a single shell command.
+        </li>
+        <li>
+          <a href="https://sofa.macadmins.io/" target="_blank" rel="noopener">
+            <strong>SOFA</strong>
+          </a>
+          — Simple Organized Feed for Apple software updates. The MacAdmins community's source of truth for OS release timing.
+        </li>
+      </ul>
+    </Section>
   </main>
 </BaseLayout>

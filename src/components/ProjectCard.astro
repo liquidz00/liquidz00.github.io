@@ -10,32 +10,25 @@ interface Props {
 
 const { tag, name, desc, stack = [], href, docsHref } = Astro.props;
 
-const hasMultipleLinks = Boolean(href && docsHref);
-
-// When the card has both repo + docs links, render as a <div> with an
-// invisible "cover" anchor stretched across the whole card pointing to
-// the docs URL (preferred destination for visitors). The Code/Docs
-// buttons inside the card sit on top of the cover via z-index, so each
-// intercepts its own clicks. When only one link exists, the card itself
-// becomes the <a>.
-const Tag = hasMultipleLinks ? 'div' : href ? 'a' : 'div';
-const cardHref = hasMultipleLinks ? undefined : href;
+// Whole card is clickable via a stretched cover anchor — points to docs
+// when available, otherwise the repo. The explicit Code/Docs buttons
+// inside the card sit above the cover via z-index, so each intercepts
+// its own clicks.
+const coverHref = docsHref ?? href;
 const isExternal = (url?: string) => url?.startsWith('http');
+const coverLabel = docsHref
+  ? `Open ${name} documentation`
+  : `Open ${name} on GitHub`;
 ---
 
-<Tag
-  class="project-card"
-  href={cardHref}
-  target={isExternal(cardHref) ? '_blank' : undefined}
-  rel={isExternal(cardHref) ? 'noopener' : undefined}
->
-  {hasMultipleLinks && docsHref && (
+<div class="project-card">
+  {coverHref && (
     <a
       class="project-card-cover"
-      href={docsHref}
-      target={isExternal(docsHref) ? '_blank' : undefined}
-      rel={isExternal(docsHref) ? 'noopener' : undefined}
-      aria-label={`Open ${name} documentation`}
+      href={coverHref}
+      target={isExternal(coverHref) ? '_blank' : undefined}
+      rel={isExternal(coverHref) ? 'noopener' : undefined}
+      aria-label={coverLabel}
     ></a>
   )}
 
@@ -49,7 +42,7 @@ const isExternal = (url?: string) => url?.startsWith('http');
     </div>
   )}
 
-  {hasMultipleLinks && (
+  {(href || docsHref) && (
     <div class="project-links">
       {href && (
         <a
@@ -73,6 +66,4 @@ const isExternal = (url?: string) => url?.startsWith('http');
       )}
     </div>
   )}
-
-  {!hasMultipleLinks && href && <span class="project-arrow" aria-hidden="true">↗</span>}
-</Tag>
+</div>

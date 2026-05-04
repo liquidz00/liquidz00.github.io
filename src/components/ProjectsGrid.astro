@@ -1,21 +1,16 @@
 ---
 import ProjectCard from './ProjectCard.astro';
-import Section from './Section.astro';
 
 interface Props {
-  showHeader?: boolean;
-  headerLabel?: string;
-  headerTitle?: string;
+  category?: 'authored' | 'contribute';
 }
 
-const {
-  showHeader = true,
-  headerLabel = '// Projects',
-  headerTitle = 'Selected Work',
-} = Astro.props;
+const { category = 'authored' } = Astro.props;
 
-const projects = [
+const allProjects = [
+  // Authored — projects I built and own end-to-end.
   {
+    category: 'authored',
     tag: 'Open Source',
     name: 'Patcher',
     desc: 'Patch reporting and analytics for Jamf-managed Apple fleets. Surfaces software title coverage so patching is visible and auditable.',
@@ -24,6 +19,7 @@ const projects = [
     docsHref: 'https://patcher.readthedocs.io',
   },
   {
+    category: 'authored',
     tag: 'Open Source',
     name: 'JamfMCP',
     desc: 'Model Context Protocol server for Jamf Pro — lets LLM tools query and act against a Jamf instance through a standard interface.',
@@ -32,6 +28,7 @@ const projects = [
     docsHref: 'https://jamfmcp.readthedocs.io',
   },
   {
+    category: 'authored',
     tag: 'Open Source',
     name: 'pymdm',
     desc: 'Python toolkit for working with MDM workflows — building blocks for managing Apple endpoints programmatically.',
@@ -39,25 +36,39 @@ const projects = [
     href: 'https://github.com/liquidz00/pymdm',
     docsHref: 'https://pymdm.readthedocs.io',
   },
+
+  // Maintain & contribute — community projects I help drive forward.
+  {
+    category: 'contribute',
+    tag: 'Maintainer',
+    name: 'Jamf Pro Python SDK',
+    desc: 'Client library for the Jamf Pro REST and Classic APIs and webhooks. Maintained as part of the MacAdmins community.',
+    stack: ['Python', 'Jamf Pro API'],
+    href: 'https://github.com/macadmins/jamf-pro-sdk-python',
+    docsHref: 'https://macadmins.github.io/jamf-pro-sdk-python',
+  },
+  {
+    category: 'contribute',
+    tag: 'Contributor',
+    name: 'JAWA',
+    desc: 'Jamf Automated Webhook Assistant — a web server that routes Jamf Pro webhooks into downstream automation. Small contributions: docs, type hints, cleanup.',
+    stack: ['Python', 'Webhooks'],
+    href: 'https://github.com/jamf/JAWA',
+  },
 ];
 
-const Wrapper = showHeader ? Section : 'section';
-const wrapperProps = showHeader
-  ? { label: headerLabel, title: headerTitle }
-  : { class: 'section' };
+const projects = allProjects.filter((p) => p.category === category);
 ---
 
-<Wrapper {...wrapperProps}>
-  <div class="projects-grid">
-    {projects.map((project) => (
-      <ProjectCard
-        tag={project.tag}
-        name={project.name}
-        desc={project.desc}
-        stack={project.stack}
-        href={project.href}
-        docsHref={project.docsHref}
-      />
-    ))}
-  </div>
-</Wrapper>
+<div class="projects-grid">
+  {projects.map((project) => (
+    <ProjectCard
+      tag={project.tag}
+      name={project.name}
+      desc={project.desc}
+      stack={project.stack}
+      href={project.href}
+      docsHref={project.docsHref}
+    />
+  ))}
+</div>
