@@ -3,9 +3,10 @@
 // Converts container directives (:::note ... :::) into styled callouts.
 // Pair this with `remark-directive` (which handles the parsing).
 //
-// Supported types: note, tip, important, warning, caution
+// Supported types: note, tip, important, warning, caution, quote
 // Default title:   the type name, capitalized
 // Custom title:    use a directive label — `:::tip[Save typing]`
+//                  For quote callouts, label is the attribution.
 //
 // Output (HTML):
 //   <aside class="callout callout-note">
@@ -15,7 +16,7 @@
 
 import { visit } from 'unist-util-visit';
 
-const TYPES = new Set(['note', 'tip', 'important', 'warning', 'caution']);
+const TYPES = new Set(['note', 'tip', 'important', 'warning', 'caution', 'quote']);
 
 const titleCase = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 

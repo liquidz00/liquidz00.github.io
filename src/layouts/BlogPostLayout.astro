@@ -102,3 +102,78 @@ const toc = showToc
     </div>
   </main>
 </BaseLayout>
+
+<style is:global>
+  .blog-post .mermaid {
+    cursor: zoom-in;
+  }
+  .blog-post figure {
+    margin: 1.5rem 0;
+  }
+  .blog-post figcaption {
+    font-size: 0.85rem;
+    text-align: center;
+    margin-top: 0.5rem;
+    opacity: 0.65;
+    font-style: italic;
+  }
+  .blog-post figcaption code {
+    font-style: normal;
+    font-size: 0.95em;
+  }
+  .mermaid-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.92);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 2rem;
+    cursor: zoom-out;
+  }
+  .mermaid-overlay.active {
+    display: flex;
+  }
+  .mermaid-overlay .mermaid {
+    width: 90vw;
+    max-width: 1600px;
+    overflow: auto;
+  }
+  .mermaid-overlay .mermaid svg {
+    width: 100% !important;
+    height: auto !important;
+    max-width: none !important;
+    max-height: 90vh !important;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const diagrams = document.querySelectorAll('.blog-post .mermaid');
+    if (diagrams.length === 0) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'mermaid-overlay';
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(overlay);
+
+    const close = () => {
+      overlay.classList.remove('active');
+      overlay.innerHTML = '';
+    };
+
+    overlay.addEventListener('click', close);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlay.classList.contains('active')) close();
+    });
+
+    diagrams.forEach((diagram) => {
+      diagram.addEventListener('click', () => {
+        overlay.innerHTML = '';
+        overlay.appendChild(diagram.cloneNode(true));
+        overlay.classList.add('active');
+      });
+    });
+  });
+</script>
