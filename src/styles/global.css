@@ -85,6 +85,8 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* Visually hide an element while keeping it in the accessibility tree
@@ -109,6 +111,7 @@ body {
   line-height: 1.6;
   min-height: 100vh;
   overflow-x: hidden;
+  overflow-x: clip;
   transition:
     background 0.3s ease,
     color 0.3s ease;
@@ -1372,6 +1375,7 @@ nav {
   border: 1px solid var(--border);
   padding: 1px 6px;
   border-radius: 2px;
+  overflow-wrap: anywhere;
 }
 .blog-post-body pre {
   background: var(--bg2);
@@ -1393,6 +1397,21 @@ nav {
   border-collapse: collapse;
   margin: 24px 0;
   font-size: 14px;
+}
+/* On narrow viewports, switch to display: block so the table becomes a
+   horizontally scrollable container rather than forcing the page wider
+   than the screen. Desktop keeps default table layout. */
+@media (max-width: 700px) {
+  .blog-post-body table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .blog-post-body th,
+  .blog-post-body td {
+    white-space: nowrap;
+  }
 }
 .blog-post-body th,
 .blog-post-body td {
