@@ -16,8 +16,10 @@ import Section from '../../components/Section.astro';
       </div>
       <img
         class="about-header"
-        src="/assets/img/about-header.webp"
-        alt=""
+        src="/assets/img/about/andrew-portrait.webp"
+        alt="Portrait of Andrew"
+        width="1760"
+        height="991"
         loading="eager"
       />
 
@@ -74,6 +76,27 @@ import Section from '../../components/Section.astro';
           <li>🎃 Watching horror movies (Halloween is a sacred holiday in our house)</li>
           <li>🎧 Producing music or listening to podcasts</li>
         </ul>
+      </div>
+
+      <div class="about-gallery">
+        <button class="about-gallery-item" type="button" aria-label="Open photo: Andrew and Rachel at the Boston Common Christmas tree">
+          <img src="/assets/img/about/gallery-couple.webp" alt="Andrew and Rachel at the Boston Common Christmas tree" loading="lazy" />
+        </button>
+        <button class="about-gallery-item" type="button" aria-label="Open photo: Andrew, Rachel, and Misha on Halloween">
+          <img src="/assets/img/about/gallery-rachel-misha.webp" alt="Andrew, Rachel, and Misha the husky on Halloween" loading="lazy" />
+        </button>
+        <button class="about-gallery-item" type="button" aria-label="Open photo: Andrew playing with Misha">
+          <img src="/assets/img/about/gallery-andrew-misha.webp" alt="Andrew playing with Misha the husky in the yard" loading="lazy" />
+        </button>
+        <button class="about-gallery-item" type="button" aria-label="Open photo: Gus and Minerva on the windowsill">
+          <img src="/assets/img/about/gallery-cats-window.webp" alt="Gus and Minerva sharing a sunny windowsill" loading="lazy" />
+        </button>
+        <button class="about-gallery-item" type="button" aria-label="Open photo: Gus">
+          <img src="/assets/img/about/gallery-gus.webp" alt="Gus the orange cat in his teal harness" loading="lazy" />
+        </button>
+        <button class="about-gallery-item" type="button" aria-label="Open photo: Minerva">
+          <img src="/assets/img/about/gallery-minerva.webp" alt="Minerva the black cat beneath a Halloween wreath" loading="lazy" />
+        </button>
       </div>
     </Section>
 
@@ -339,5 +362,34 @@ import Section from '../../components/Section.astro';
 
       <ContactForm />
     </Section>
+
+    <dialog class="lightbox" id="about-lightbox" aria-label="Photo viewer">
+      <button class="lightbox-close" type="button" aria-label="Close photo viewer">&times;</button>
+      <img class="lightbox-img" src="" alt="" />
+    </dialog>
   </main>
 </BaseLayout>
+
+<script>
+  const dialog = document.getElementById('about-lightbox') as HTMLDialogElement | null;
+  if (dialog) {
+    const lightboxImg = dialog.querySelector<HTMLImageElement>('.lightbox-img');
+    const closeBtn = dialog.querySelector<HTMLButtonElement>('.lightbox-close');
+
+    document.querySelectorAll<HTMLButtonElement>('.about-gallery-item').forEach((item) => {
+      item.addEventListener('click', () => {
+        const sourceImg = item.querySelector('img');
+        if (!sourceImg || !lightboxImg) return;
+        lightboxImg.src = sourceImg.src;
+        lightboxImg.alt = sourceImg.alt;
+        dialog.showModal();
+      });
+    });
+
+    closeBtn?.addEventListener('click', () => dialog.close());
+
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+  }
+</script>

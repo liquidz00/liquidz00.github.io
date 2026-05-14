@@ -750,8 +750,101 @@ nav {
   max-width: 880px;
   height: auto;
   border: 1px solid var(--border);
-  margin-bottom: 32px;
+  margin: 0 auto 32px;
   display: block;
+}
+
+.about-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 24px;
+}
+
+@media (max-width: 720px) {
+  .about-gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.about-gallery-item {
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--bg2);
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  border: 1px solid var(--border);
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  cursor: zoom-in;
+  display: block;
+  width: 100%;
+}
+
+.about-gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.about-gallery-item:hover img,
+.about-gallery-item:focus-visible img {
+  transform: scale(1.04);
+}
+
+.about-gallery-item:focus-visible {
+  outline: 2px solid var(--accent2);
+  outline-offset: 2px;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: fit-content;
+  height: fit-content;
+  border: none;
+  background: transparent;
+  padding: 0;
+  max-width: min(92vw, 1200px);
+  max-height: 92vh;
+  overflow: visible;
+}
+
+.lightbox::backdrop {
+  background: rgba(0, 0, 0, 0.88);
+  cursor: zoom-out;
+}
+
+.lightbox img {
+  display: block;
+  max-width: 100%;
+  max-height: 92vh;
+  width: auto;
+  height: auto;
+  border: 1px solid var(--border);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background: transparent;
+  border: 0;
+  color: white;
+  font-size: 32px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px 10px;
+}
+
+.lightbox-close:hover,
+.lightbox-close:focus-visible {
+  color: var(--accent2);
+  outline: none;
 }
 
 /* Callouts. ONE configuration used everywhere:
