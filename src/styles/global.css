@@ -155,7 +155,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 48px;
+  padding: 14px 48px;
   background: var(--nav-bg);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
@@ -163,14 +163,26 @@ nav {
 }
 
 .nav-logo {
-  font-family: var(--mono);
-  font-size: 13px;
-  color: var(--accent);
-  letter-spacing: 0.05em;
+  display: inline-flex;
+  align-items: center;
   text-decoration: none;
 }
-.nav-logo span {
-  color: var(--text-muted);
+.nav-logo img {
+  height: 35px;
+  width: auto;
+  display: block;
+}
+.nav-logo .logo-light {
+  display: none;
+}
+.nav-logo .logo-dark {
+  display: block;
+}
+[data-theme="light"] .nav-logo .logo-light {
+  display: block;
+}
+[data-theme="light"] .nav-logo .logo-dark {
+  display: none;
 }
 
 .nav-links {
