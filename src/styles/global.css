@@ -107,7 +107,7 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--body);
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.6;
   min-height: 100vh;
   overflow-x: hidden;
@@ -168,7 +168,7 @@ nav {
   text-decoration: none;
 }
 .nav-logo img {
-  height: 35px;
+  height: 32px;
   width: auto;
   display: block;
 }
