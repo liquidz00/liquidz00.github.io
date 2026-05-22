@@ -1,0 +1,299 @@
+---
+title: "Wiring Cask metadata into Installomator using Patcher's API"
+description: "How Patcher's generate-label endpoint extracts Installomator valuesfromarguments fields from Homebrew Cask metadata. Worked example with ChatGPT Atlas, plus Terraform and Python deployment paths."
+date: 2026-05-21
+tags:
+  - Patcher
+  - Installomator
+  - MacAdmin
+  - Jamf
+  - Terraform
+---
+
+import { Code } from 'astro:components';
+
+{/* Toolkit commit to reference; bump when needed */}
+export const TOOLKIT_SHA = 'dc61f8e8571686d0fa64f0bc421f073a1c65dfa9';
+export const TOOLKIT_BASE = `https://raw.githubusercontent.com/liquidz00/macadmin-toolkit/${TOOLKIT_SHA}`;
+
+export const policiesTf = await fetch(`${TOOLKIT_BASE}/terraform/policies.tf`).then((r) => r.text());
+
+{/* Walk braces from `resource "<type>" "<name>"` to the matching close so we can
+embed just the relevant block instead of the whole .tf file. */}
+export const extractResource = (source, type, name) => {
+  const start = source.indexOf(`resource "${type}" "${name}"`);
+  if (start < 0) return source;
+  let depth = 0;
+  let opened = false;
+  for (let i = start; i < source.length; i++) {
+    if (source[i] === '{') { depth++; opened = true; }
+    else if (source[i] === '}') {
+      depth--;
+      if (opened && depth === 0) return source.slice(start, i + 1);
+    }
+  }
+  return source.slice(start);
+};
+
+export const atlasPolicyResource = extractResource(policiesTf, 'jamfpro_policy', 'chatgpt_atlas_install');
+
+:::tip[TL;DR]
+Installomator's `valuesfromarguments` feature lets you deploy any Mac app without a label by passing required variables as script parameters. Patcher has an API endpoint to extract as many values as possible from Homebrew Cask metadata, which you can use to pass to the script for installation. This post walks through using Patcher's API to obtain this information and deployment via both Terraform and the Jamf Classic API.
+:::
+
+Every IT department spends real time deciding what software is allowed on employee machines and what isn't. The criteria are organization-specific and out of scope for this article. What's in scope, however, is keeping an app that's crossed the threshold from "allowed" to "actively deployed" up to date. It's a dance every MacAdmin knows by heart.
+
+The process _usually_ starts with triaging which automation source supports the application, if any. Is it in Installomator? AutoPkg? Homebrew Cask? Vendor-provided PKG?
+
+When the answer is "none of them", you're back to building the package by hand. Different vendors ship installers in different shapes and version updates require redoing the work.
+
+:::quote
+A one-size-fits-all build script breaks in interesting ways on the next vendor.
+:::
+
+This is where Installomator's `valuesfromarguments` [feature](https://github.com/Installomator/Installomator/wiki/Configuration-and-Variables#values-from-arguments) becomes a real game changer.
+
+## Going label-less
+
+Installomator's underlying functionality already handles installing almost any installer file. `valuesfromarguments` allows admins to leverage Installomator for "label-less" titles by passing the [four required variables](https://github.com/Installomator/Installomator/wiki/Label-Variables-Reference#required-variables) the script expects:
+
+- `name` -- the application name as it appears in Applications, minus the `.app` extension
+- `type` -- the [type](https://github.com/Installomator/Installomator/wiki/Label-Variables-Reference#required-variables:~:text=type%3A%20The%20type,has%20been%20zip%27ed) of installer file
+- `downloadURL` -- where the installer lives
+- `expectedTeamID` -- the Apple Developer Team ID, for signature verification before installing
+
+Three of those four are still vendor-website grunt work. The fourth, `expectedTeamID`, requires inspecting a signed binary. Either download the installer and run `codesign -dvvv` against the app inside, or use a tool like [Apparency](https://www.mothersruin.com/software/Apparency/) by Mothers Ruin Software.
+
+I wanted to automate as much of this as possible. That's where Patcher comes in.
+
+## The Patcher API solution
+
+[Patcher](https://github.com/liquidz00/Patcher) ships with a public catalog API at `api.patcherctl.dev` that stitches Installomator, Homebrew Cask, AutoPkg, and Jamf App Installer metadata into one queryable surface. It exposes a `generate-label` endpoint that does exactly what its name suggests: given an app slug, it returns a label-shaped object you can drop into Installomator's `valuesfromarguments` flow. No authentication required.
+
+## Walking through ChatGPT Atlas
+
+OpenAI shipped Atlas in October 2025, and at the time of writing it doesn't have an Installomator label. It does have a Homebrew Cask entry, making it a perfect candidate to use as a demo. 
+
+Let's make the API call to Patcher and see what comes back.
+
+```bash
+curl -s -X POST "https://api.patcherctl.dev/apps/chatgpt-atlas/generate-label" | jq
+```
+
+:::important
+The `jq` binary is bundled with macOS as of Sequoia. If you are on an older version of macOS, install `jq` with Homebrew via `brew install jq`.
+:::
+
+The response:
+
+```json
+{
+    "label_name": "chatgpt-atlas",
+    "content": {
+        "name": "ChatGPT Atlas",
+        "type": "dmg",
+        "downloadURL": "https://persistent.oaistatic.com/atlas/public/ChatGPT_Atlas_Desktop_public_1.2026.119.1_20260504231115000.dmg",
+        "appNewVersion": "1.2026.119.1,20260504231115000"
+    },
+    "sources_used": ["homebrew_cask"],
+    "warnings": [
+        "expectedTeamID unknown — Installomator requires this for code-sign verification. Determine manually via `codesign -dvvv <path-to-app>` before deploying."
+    ]
+}
+```
+
+We can see from the response that three of the four required fields came back automatically (`name`, `type`, `downloadURL`). The endpoint also surfaced an `appNewVersion`, which you could use for version-targeting if needed.
+
+The fourth, `expectedTeamID`, isn't in the Cask metadata, so the endpoint tells you exactly what to run next. My personal preference is Apparency, but for the sake of demonstration we will download the DMG, mount it, and codesign the app inside. 
+
+:::tip[Watch the volume name]
+The volume `hdiutil` mounts is not always the app name. For ChatGPT Atlas, the volume is `ChatGPT Atlas Installer`, with the app inside of it. The last line of `hdiutil` output reveals the real path. Be sure to grab the volume name from there before running `codesign`, otherwise the second command will hit a path that doesn't exist.
+:::
+
+<figure>
+
+```console
+$ hdiutil attach ~/Downloads/ChatGPT_Atlas_Desktop_public_1.2026.119.1_20260504231115000.dmg
+...
+/dev/disk4s1    Apple_HFS   /Volumes/ChatGPT Atlas Installer
+
+$ codesign -dvvv "/Volumes/ChatGPT Atlas Installer/ChatGPT Atlas.app" 2>&1 | grep TeamIdentifier
+TeamIdentifier=2DC432GLL2
+```
+
+<figcaption>`hdiutil`: Mount the installer DMG and note the volume name; `codesign`: Inspect the app's Team ID</figcaption>
+</figure>
+
+:::caution
+Always verify `expectedTeamID` against the actual binary before deploying. If it doesn't match what's in your policy, Installomator will refuse to install. That's the whole point of the check.
+:::
+
+## Looking it up programmatically
+
+If you're deploying via Python, the same lookup is one HTTP request.
+
+:::note[Python interpreter]
+The Python scripts below use the `requests` library, which ships with the [macadmins/python](https://github.com/macadmins/python) bundled interpreter. If you're deploying a custom Python build for your fleet, make sure `requests` is in your wheelhouse, swap the scripts to `urllib.request` from the standard library, or rewrite in your preferred programming language.
+:::
+
+```python
+"""Resolve the four Installomator valuesfromarguments fields for a given app slug."""
+import sys
+import requests
+
+def generate_label(slug: str) -> dict:
+    """Hit the Patcher API and return the generated label."""
+    response = requests.post(f"https://api.patcherctl.dev/apps/{slug}/generate-label")
+    response.raise_for_status()
+    return response.json()
+
+def main(slug: str) -> None:
+    result = generate_label(slug)
+    content = result["content"]
+    print(f"name={content['name']}")
+    print(f"type={content['type']}")
+    print(f"downloadURL={content['downloadURL']}")
+    for warning in result.get("warnings", []):
+        print(f"# {warning}")
+
+
+if __name__ == "__main__":
+    main(sys.argv[1])
+```
+
+Save the script and give it a descriptive name. Execute the script using `chatgpt-atlas` as our slug name to see the output:
+
+```console
+$ python3 generate_label.py chatgpt-atlas
+...
+name=ChatGPT Atlas
+type=dmg
+downloadURL=https://persistent.oaistatic.com/atlas/public/ChatGPT_Atlas_Desktop_public_1.2026.119.1_20260504231115000.dmg
+# expectedTeamID unknown — Installomator requires this for code-sign verification...
+```
+
+## Deploying via Terraform
+
+Assuming you've already declared the Installomator script as a `jamfpro_script` [resource](https://github.com/liquidz00/macadmin-toolkit/blob/dc61f8e8571686d0fa64f0bc421f073a1c65dfa9/terraform/scripts.tf#L54-L60), the policy resource references that script by ID and passes the four field values as numbered parameters.
+
+<figure>
+  <Code code={atlasPolicyResource} lang="hcl" />
+  <figcaption>terraform/policies.tf (install ChatGPT Atlas via Installomator's <code>valuesfromarguments</code>)</figcaption>
+</figure>
+
+For ad-hoc deploys, parameter 4 is set to `valuesfromarguments` instead of the label name. Parameters 5 through 11 carry the field-value pairs Installomator expects.
+
+## Deploying via Python and the Classic API
+
+For shops not using Terraform, policies can be created using Jamf's Classic API. The modern Jamf Pro API hasn't shipped policy CRUD endpoints yet, so the script below POSTs XML to `/JSSResource/policies/id/0` instead.
+
+```python
+"""Deploy ChatGPT Atlas via Installomator as a Jamf Pro policy."""
+import xml.etree.ElementTree as ET
+import requests
+
+JAMF_URL = "https://yourorg.jamfcloud.com"
+CLIENT_ID = "your-client-id"
+CLIENT_SECRET = "your-client-secret"
+
+INSTALLOMATOR_SCRIPT_ID = "123"  # ID of your uploaded Installomator script
+CATEGORY_ID = "10"
+
+ATLAS_DOWNLOAD_URL = (
+    "https://persistent.oaistatic.com/atlas/public/"
+    "ChatGPT_Atlas_Desktop_public_1.2026.119.1_20260504231115000.dmg"
+)
+
+def get_bearer_token() -> str:
+    """OAuth client_credentials grant against the Jamf Pro API."""
+    response = requests.post(
+        f"{JAMF_URL}/api/oauth/token",
+        data={
+            "client_id": CLIENT_ID,
+            "client_secret": CLIENT_SECRET,
+            "grant_type": "client_credentials",
+        },
+    )
+    response.raise_for_status()
+    return response.json()["access_token"]
+
+def build_policy_xml() -> bytes:
+    """Construct the Classic API policy XML payload."""
+    policy = ET.Element("policy")
+
+    general = ET.SubElement(policy, "general")
+    ET.SubElement(general, "name").text = "Install ChatGPT Atlas"
+    ET.SubElement(general, "enabled").text = "true"
+    category = ET.SubElement(general, "category")
+    ET.SubElement(category, "id").text = CATEGORY_ID
+    ET.SubElement(general, "trigger_other").text = "USER_INITIATED"
+    ET.SubElement(general, "frequency").text = "Ongoing"
+
+    self_service = ET.SubElement(policy, "self_service")
+    ET.SubElement(self_service, "use_for_self_service").text = "true"
+    ET.SubElement(self_service, "self_service_display_name").text = "ChatGPT Atlas"
+    ET.SubElement(self_service, "install_button_text").text = "Install"
+    ET.SubElement(self_service, "reinstall_button_text").text = "Reinstall"
+
+    scripts = ET.SubElement(policy, "scripts")
+    ET.SubElement(scripts, "size").text = "1"
+    script = ET.SubElement(scripts, "script")
+    ET.SubElement(script, "id").text = INSTALLOMATOR_SCRIPT_ID
+    ET.SubElement(script, "priority").text = "After"
+    ET.SubElement(script, "parameter4").text = "valuesfromarguments"
+    ET.SubElement(script, "parameter5").text = "name=ChatGPT Atlas"
+    ET.SubElement(script, "parameter6").text = "type=dmg"
+    ET.SubElement(script, "parameter7").text = f"downloadURL={ATLAS_DOWNLOAD_URL}"
+    ET.SubElement(script, "parameter8").text = "expectedTeamID=2DC432GLL2"
+
+    return ET.tostring(policy, encoding="utf-8", xml_declaration=True)
+
+def create_policy(token: str, xml_body: bytes) -> None:
+    """POST the policy XML to the Classic API. ID 0 means 'new'."""
+    response = requests.post(
+        f"{JAMF_URL}/JSSResource/policies/id/0",
+        data=xml_body,
+        headers={
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/xml",
+            "Accept": "application/xml",
+        },
+    )
+    response.raise_for_status()
+    print(f"Created with status: {response.status_code}")
+
+
+if __name__ == "__main__":
+    token = get_bearer_token()
+    create_policy(token, build_policy_xml())
+```
+
+## Bonus: lookup from Claude Code
+
+If [Claude Code](https://claude.com/claude-code) is already part of your workflow, Patcher ships a [skill](https://github.com/liquidz00/Patcher/tree/main/.claude/skills/patcher) at `.claude/skills/patcher/` that answers the "what coverage exists for this app?" question without leaving the chat session:
+
+```
+/patcher chatgpt-atlas
+```
+
+The skill checks Installomator, Homebrew Cask, AutoPkg, and Jamf App Installer in parallel and prints a coverage report per source. It's a faster way to confirm "yes, Cask has it, Installomator doesn't" before reaching for the `generate-label` endpoint.
+
+Project-scoped install is automatic if you clone Patcher: open any Claude Code session from the repo root and the skill loads itself. For a user-scoped install that's available across every project on your machine, see the [skill documentation](https://docs.patcherctl.dev/en/latest/getting-started/claude-code.html).
+
+## Wrap-up
+
+That's the dance, condensed:
+
+1. `curl https://api.patcherctl.dev/apps/<slug>/generate-label` for the three resolvable fields
+2. `codesign -dvvv` (or [Apparency](https://www.mothersruin.com/software/Apparency/)) against the signed binary for `expectedTeamID`
+3. `terraform apply`, or POST the Classic API XML
+
+ChatGPT Atlas was today's demo, but the same recipe works for any app that has a Cask entry and no Installomator label yet. That's most of the long tail.
+
+:::quote
+Three Cask fields, one codesign command, one Jamf policy.
+:::
+
+The Patcher API is public and unauthenticated, so the lookup step works from anywhere. Endpoint reference and full schema live in [project docs](https://docs.patcherctl.dev/en/latest/reference/api/endpoints.html). The [OpenAPI schema](https://api.patcherctl.dev/openapi.json) and [Swagger UI](https://api.patcherctl.dev/docs) are also available if you'd rather poke at the surface directly.
+
+If you find an app where `generate-label` comes up short, or you want to contribute a resolver for fields beyond what Cask provides, [open an issue](https://github.com/liquidz00/Patcher/issues/new/choose) on the Patcher repo or find me in the `#patcher` channel on [MacAdmins Slack](https://macadmins.slack.com/archives/C07EH1R7LB0). The catalog gets better the more apps it covers, and the most useful contributions are usually "I tried this against $vendor and here's what came back garbled."
