@@ -52,5 +52,9 @@ const ogImage = image ? new URL(image, siteUrl).toString() : undefined;
     <Nav />
     <slot />
     <Footer />
+    <script>
+      // Registers the <iconify-icon> custom element used by callout labels.
+      import 'iconify-icon';
+    </script>
   </body>
 </html>

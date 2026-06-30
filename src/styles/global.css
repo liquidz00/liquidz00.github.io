@@ -36,6 +36,8 @@
   --callout-warning: #e87d3f;    /* matches accent — warning vibe */
   --callout-caution: #d96b6b;    /* muted red */
   --callout-quote: #b89c5e;      /* warm gold — pull quote / emphasis */
+  --callout-dropdown: #6b6963;   /* neutral gray — collapsible toggle, no highlight */
+  --callout-definition: #5fb0b8; /* teal — term definitions */
 
   --mono: "DM Mono", monospace;
   --display: "Syne", sans-serif;
@@ -69,6 +71,8 @@
   --callout-warning: #c96520;
   --callout-caution: #b54a4a;
   --callout-quote: #7a6840;
+  --callout-dropdown: #8a8582;
+  --callout-definition: #2f8499;
 }
 
 /* ============================================================
@@ -886,7 +890,8 @@ nav {
    the .callout-label rule and the label inherits 14px body styling. */
 .callout p:not(.callout-label),
 .blog-post-body blockquote p {
-  font-size: 14px;
+  font-size: 16px;
+  line-height: 1.7;
   margin: 0;
 }
 .callout p:not(.callout-label) + p:not(.callout-label),
@@ -908,7 +913,7 @@ nav {
 .callout-label {
   display: block;
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 13px;
   color: var(--accent2);
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -947,6 +952,51 @@ nav {
 }
 .callout-caution .callout-label {
   color: var(--callout-caution);
+}
+/* Dropdown — a collapsible <details>. Reuses the callout box; the <summary>
+   is the clickable label, with a marker that rotates open. */
+.callout-dropdown {
+  border-left-color: var(--callout-dropdown);
+}
+.callout-dropdown > .callout-label {
+  color: var(--callout-dropdown);
+  cursor: pointer;
+  margin-bottom: 0;
+  list-style: none;
+  user-select: none;
+}
+.callout-dropdown > .callout-label::-webkit-details-marker {
+  display: none;
+}
+.callout-dropdown > .callout-label::before {
+  content: "\25B8";
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.15s ease;
+}
+.callout-dropdown[open] > .callout-label::before {
+  transform: rotate(90deg);
+}
+.callout-dropdown[open] > .callout-label {
+  margin-bottom: 10px;
+}
+/* Definition — a labeled aside for explaining a term in plain language.
+   Label reads "Definition: <term>"; body holds the explanation. Normal case
+   (not uppercased) so terms like "EventBridge" keep their casing. */
+.callout-definition {
+  border-left-color: var(--callout-definition);
+}
+.callout-definition .callout-label {
+  color: var(--callout-definition);
+  text-transform: none;
+}
+
+/* Iconify icon prefixed to a callout label. It inherits currentColor (the
+   label's per-type accent), so the icon always matches the callout color. */
+.callout-icon {
+  margin-right: 6px;
+  font-size: 1.25em;
+  vertical-align: -0.18em;
 }
 /* Pull quote — visual break, not a labeled aside. Strips the box, drops
    the label, centers the text, frames it with oversized curly quotes. */
